@@ -6,18 +6,11 @@
     <title>HERSPACE | Premium Women's Wellness</title>
     <meta name="theme-color" content="#F3CADB">
     <link rel="manifest" href="manifest.json">
-    
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <!-- Charts -->
+    <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <style>
         :root {
             --lavender: #C7A6DC;
@@ -31,439 +24,118 @@
             --shadow: 0 8px 32px rgba(73, 53, 79, 0.08);
             --radius: 24px;
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background: linear-gradient(135deg, #FFF9F4 0%, #F3CADB 100%);
-            color: var(--plum);
-            min-height: 100vh;
-            display: flex;
-            overflow-x: hidden;
+            color: var(--plum); min-height: 100vh; display: flex; overflow-x: hidden;
         }
-
-        /* --- Layout --- */
-        .app-container {
-            display: flex;
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            min-height: 100vh;
-            position: relative;
-        }
-
-        /* Desktop Sidebar */
+        /* Layout */
+        .app-container { display: flex; width: 100%; max-width: 1200px; margin: 0 auto; min-height: 100vh; position: relative; }
         .sidebar {
-            display: none;
-            width: 260px;
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            padding: 32px 24px;
-            border-right: 1px solid rgba(255,255,255,0.5);
-            flex-direction: column;
-            gap: 12px;
-            height: 100vh;
-            position: sticky;
-            top: 0;
+            display: none; width: 260px; background: var(--glass); backdrop-filter: blur(20px);
+            padding: 32px 24px; border-right: 1px solid rgba(255,255,255,0.5);
+            flex-direction: column; gap: 12px; height: 100vh; position: sticky; top: 0;
         }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--plum);
-            margin-bottom: 32px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
+        .logo { font-size: 24px; font-weight: 800; color: var(--plum); margin-bottom: 32px; display: flex; align-items: center; gap: 8px; }
         .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 14px 20px;
-            border-radius: 16px;
-            color: var(--plum);
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            cursor: pointer;
+            display: flex; align-items: center; gap: 16px; padding: 14px 20px; border-radius: 16px;
+            color: var(--plum); font-weight: 600; text-decoration: none; transition: all 0.3s ease; cursor: pointer;
         }
-
-        .nav-item:hover, .nav-item.active {
-            background: var(--white);
-            box-shadow: var(--shadow);
-            color: #9A6BB0;
-        }
-
-        /* Mobile Bottom Nav */
+        .nav-item:hover, .nav-item.active { background: var(--white); box-shadow: var(--shadow); color: #9A6BB0; }
         .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            display: flex;
-            justify-content: space-around;
-            padding: 12px 8px 24px 8px;
-            border-top: 1px solid rgba(255,255,255,0.5);
-            z-index: 100;
+            position: fixed; bottom: 0; left: 0; width: 100%; background: var(--glass); backdrop-filter: blur(20px);
+            display: flex; justify-content: space-around; padding: 12px 8px 24px 8px;
+            border-top: 1px solid rgba(255,255,255,0.5); z-index: 100;
         }
-
         .nav-item-mobile {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            color: #a0a0a0;
-            font-size: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: color 0.2s;
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
+            color: #a0a0a0; font-size: 10px; font-weight: 600; cursor: pointer; transition: color 0.2s;
         }
-
-        .nav-item-mobile.active {
-            color: var(--plum);
-        }
-
-        .nav-item-mobile i {
-            width: 20px;
-            height: 20px;
-        }
-
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            padding: 24px 20px 100px 20px;
-            max-width: 100%;
-            overflow-y: auto;
-        }
-
-        .view-section {
-            display: none;
-            animation: fadeIn 0.4s ease-out;
-        }
-
-        .view-section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* --- Components --- */
+        .nav-item-mobile.active { color: var(--plum); }
+        .nav-item-mobile i { width: 20px; height: 20px; }
+        .main-content { flex: 1; padding: 24px 20px 100px 20px; max-width: 100%; overflow-y: auto; }
+        .view-section { display: none; animation: fadeIn 0.4s ease-out; }
+        .view-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Components */
         .glass-card {
-            background: var(--glass);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255,255,255,0.8);
-            border-radius: var(--radius);
-            padding: 20px;
-            box-shadow: var(--shadow);
-            margin-bottom: 16px;
-            position: relative;
-            overflow: hidden;
+            background: var(--glass); backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.8); border-radius: var(--radius);
+            padding: 20px; box-shadow: var(--shadow); margin-bottom: 16px; position: relative; overflow: hidden;
         }
-
-        .header-text {
-            font-size: 28px;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
-
-        .sub-text {
-            font-size: 14px;
-            color: #6b5b72;
-            margin-bottom: 24px;
-        }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-
-        /* Dashboard Specific */
-        .cycle-widget {
-            background: linear-gradient(135deg, #ffffff 0%, #f7f0f9 100%);
-            text-align: center;
-            padding: 24px;
-        }
-
+        .header-text { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+        .sub-text { font-size: 14px; color: #6b5b72; margin-bottom: 24px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        /* Dashboard */
+        .cycle-widget { background: linear-gradient(135deg, #ffffff 0%, #f7f0f9 100%); text-align: center; padding: 24px; }
         .cycle-circle {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            margin: 0 auto 16px auto;
-            border: 8px solid var(--blush);
-            border-top-color: var(--lavender);
-            border-right-color: var(--lavender);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
+            width: 140px; height: 140px; border-radius: 50%; margin: 0 auto 16px auto;
+            border: 8px solid var(--blush); border-top-color: var(--lavender); border-right-color: var(--lavender);
+            display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative;
         }
-
-        .cycle-day {
-            font-size: 36px;
-            font-weight: 800;
-            color: var(--plum);
-            line-height: 1;
-        }
-
-        .cycle-label {
-            font-size: 12px;
-            font-weight: 600;
-            color: #8a7d8e;
-        }
-
-        /* Mood Widget */
-        .mood-widget {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(135deg, #ffffff 0%, #fdf5f7 100%);
-        }
-
+        .cycle-day { font-size: 36px; font-weight: 800; color: var(--plum); line-height: 1; }
+        .cycle-label { font-size: 12px; font-weight: 600; color: #8a7d8e; }
+        .mood-widget { display: flex; flex-direction: column; justify-content: center; align-items: center; background: linear-gradient(135deg, #ffffff 0%, #fdf5f7 100%); }
         .mood-buddy {
-            width: 80px;
-            height: 80px;
-            background: radial-gradient(circle at 30% 30%, #fff, var(--peach));
-            border-radius: 50% 50% 40% 40%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 32px;
-            box-shadow: inset -4px -4px 10px rgba(0,0,0,0.05), 0 8px 16px rgba(246, 214, 193, 0.4);
-            cursor: pointer;
-            transition: transform 0.1s ease;
+            width: 80px; height: 80px; background: radial-gradient(circle at 30% 30%, #fff, var(--peach));
+            border-radius: 50% 50% 40% 40%; display: flex; justify-content: center; align-items: center;
+            font-size: 32px; box-shadow: inset -4px -4px 10px rgba(0,0,0,0.05), 0 8px 16px rgba(246, 214, 193, 0.4);
+            cursor: pointer; transition: transform 0.1s ease;
         }
-
-        .mood-buddy:active {
-            transform: scale(0.9, 0.8);
-        }
-
-        /* Cycle Tracker Calendar */
-        .calendar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-        
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 8px;
-            text-align: center;
-        }
-
-        .cal-day {
-            aspect-ratio: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 50%;
-            font-size: 14px;
-            font-weight: 600;
-            background: var(--white);
-            color: var(--plum);
-            cursor: pointer;
-        }
-
-        .cal-day.period {
-            background: var(--blush);
-            color: #fff;
-        }
-        
-        .cal-day.predicted {
-            border: 2px dashed var(--blush);
-        }
-
-        .cal-day.today {
-            border: 2px solid var(--lavender);
-            font-weight: 800;
-        }
-
-        /* Mood Space */
-        .mood-options {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        
-        .mood-btn {
-            padding: 16px;
-            border-radius: 20px;
-            background: var(--white);
-            border: none;
-            box-shadow: var(--shadow);
-            font-size: 24px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        
-        .mood-btn:hover {
-            transform: translateY(-4px);
-        }
-
-        /* Creative Studio */
-        #paint-canvas {
-            background: white;
-            border-radius: 16px;
-            box-shadow: var(--shadow);
-            width: 100%;
-            height: 300px;
-            touch-action: none;
-        }
-        
-        .paint-tools {
-            display: flex;
-            gap: 12px;
-            margin-top: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        .color-swatch {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 2px solid transparent;
-        }
-        
-        .color-swatch.active {
-            border-color: var(--plum);
-            transform: scale(1.1);
-        }
-
-        /* AI Health Guide */
-        .chat-container {
-            display: flex;
-            flex-direction: column;
-            height: calc(100vh - 200px);
-        }
-        
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            padding-bottom: 16px;
-        }
-        
-        .msg {
-            max-width: 80%;
-            padding: 12px 16px;
-            border-radius: 16px;
-            font-size: 14px;
-            line-height: 1.4;
-        }
-        
-        .msg.ai {
-            background: var(--white);
-            align-self: flex-start;
-            border-bottom-left-radius: 4px;
-            box-shadow: var(--shadow);
-        }
-        
-        .msg.user {
-            background: var(--lavender);
-            color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 4px;
-        }
-        
-        .chat-input-area {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-        }
-        
-        .chat-input {
-            flex: 1;
-            padding: 14px 20px;
-            border-radius: 24px;
-            border: none;
-            background: var(--white);
-            box-shadow: var(--shadow);
-            font-family: inherit;
-            font-size: 14px;
-        }
-        
-        .chat-send {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            border: none;
-            background: var(--lavender);
-            color: white;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* Doctor Connect */
-        .doctor-card {
-            display: flex;
-            gap: 16px;
-            align-items: center;
-        }
-        
-        .doc-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: var(--sage);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 24px;
-        }
-
-        /* Utilities */
-        .btn {
-            background: var(--plum);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 16px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            transition: opacity 0.2s;
-        }
-        
+        .mood-buddy:active { transform: scale(0.9, 0.8); }
+        /* Calendar */
+        .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; text-align: center; }
+        .cal-day { aspect-ratio: 1; display: flex; justify-content: center; align-items: center; border-radius: 50%; font-size: 14px; font-weight: 600; background: var(--white); color: var(--plum); cursor: pointer; }
+        .cal-day.period { background: var(--blush); color: #fff; }
+        .cal-day.predicted { border: 2px dashed var(--blush); }
+        .cal-day.today { border: 2px solid var(--lavender); font-weight: 800; }
+        /* Mood */
+        .mood-options { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 20px; }
+        .mood-btn { padding: 16px; border-radius: 20px; background: var(--white); border: none; box-shadow: var(--shadow); font-size: 24px; cursor: pointer; transition: transform 0.2s; }
+        .mood-btn:hover { transform: translateY(-4px); }
+        /* Canvas */
+        #paint-canvas { background: white; border-radius: 16px; box-shadow: var(--shadow); width: 100%; height: 300px; touch-action: none; }
+        .paint-tools { display: flex; gap: 12px; margin-top: 16px; justify-content: center; flex-wrap: wrap; align-items: center; }
+        .color-swatch { width: 32px; height: 32px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; }
+        .color-swatch.active { border-color: var(--plum); transform: scale(1.1); }
+        /* Chat */
+        .chat-container { display: flex; flex-direction: column; height: calc(100vh - 200px); }
+        .chat-messages { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding-bottom: 16px; }
+        .msg { max-width: 80%; padding: 12px 16px; border-radius: 16px; font-size: 14px; line-height: 1.4; }
+        .msg.ai { background: var(--white); align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: var(--shadow); }
+        .msg.user { background: var(--lavender); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+        .chat-input-area { display: flex; gap: 8px; margin-top: 10px; }
+        .chat-input { flex: 1; padding: 14px 20px; border-radius: 24px; border: none; background: var(--white); box-shadow: var(--shadow); font-family: inherit; font-size: 14px; }
+        .chat-send { width: 48px; height: 48px; border-radius: 50%; border: none; background: var(--lavender); color: white; cursor: pointer; display: flex; justify-content: center; align-items: center; }
+        /* Doctor */
+        .doctor-card { display: flex; gap: 16px; align-items: center; }
+        .doc-avatar { width: 60px; height: 60px; border-radius: 50%; background: var(--sage); display: flex; justify-content: center; align-items: center; font-size: 24px; }
+        /* Buttons */
+        .btn { background: var(--plum); color: white; padding: 12px 24px; border-radius: 16px; border: none; font-weight: 600; cursor: pointer; width: 100%; transition: opacity 0.2s; }
         .btn:hover { opacity: 0.9; }
-        .btn-outline {
-            background: transparent;
-            color: var(--plum);
-            border: 2px solid var(--plum);
+        .btn-outline { background: transparent; color: var(--plum); border: 2px solid var(--plum); }
+        .btn-danger { background: #e74c3c; color: white; }
+        /* Chart */
+        .chart-container { position: relative; height: 200px; width: 100%; }
+        /* Onboarding */
+        #onboarding-overlay {
+            position: fixed; inset: 0; background: rgba(255,249,244,0.95); backdrop-filter: blur(10px);
+            display: flex; justify-content: center; align-items: center; z-index: 9999; padding: 20px;
         }
-
-        /* Chart container */
-        .chart-container {
-            position: relative;
-            height: 200px;
-            width: 100%;
-        }
-
-        /* Responsive */
+        #onboarding-overlay.hidden { display: none; }
+        .onboarding-card { max-width: 400px; width: 100%; text-align: center; }
+        .onboarding-card input { width: 100%; padding: 14px; border-radius: 16px; border: 2px solid var(--blush); font-family: inherit; font-size: 16px; margin: 16px 0; outline: none; }
+        .onboarding-card input:focus { border-color: var(--lavender); }
+        /* Utilities */
+        .empty-state { text-align: center; padding: 40px 20px; color: #a0a0a0; }
+        .empty-state i { width: 48px; height: 48px; margin-bottom: 12px; color: var(--lavender); }
+        .flex-row { display: flex; gap: 8px; align-items: center; }
+        .text-sm { font-size: 12px; }
+        .text-muted { color: #8a7d8e; }
+        .mt-16 { margin-top: 16px; }
+        .mb-8 { margin-bottom: 8px; }
         @media (min-width: 768px) {
             .sidebar { display: flex; }
             .bottom-nav { display: none; }
@@ -477,62 +149,64 @@
 </head>
 <body>
 
+    <!-- ONBOARDING OVERLAY -->
+    <div id="onboarding-overlay">
+        <div class="onboarding-card glass-card">
+            <div style="font-size: 48px; margin-bottom: 16px;">🌷</div>
+            <div class="header-text" style="font-size: 24px;">Welcome to HERSPACE</div>
+            <div class="sub-text">Your personal wellness space. Let's get to know you.</div>
+            <input type="text" id="onboarding-name" placeholder="What should we call you?" maxlength="30">
+            <input type="number" id="onboarding-cycle" placeholder="Usual cycle length in days (optional)" min="20" max="45" style="margin-bottom: 8px;">
+            <div class="text-sm text-muted mb-8">If you don't know, leave blank. We'll start with 28 days and learn as you log.</div>
+            <button class="btn" onclick="completeOnboarding()">Enter My Space</button>
+        </div>
+    </div>
+
     <div class="app-container">
-        <!-- DESKTOP SIDEBAR -->
+        <!-- SIDEBAR -->
         <aside class="sidebar">
-            <div class="logo">
-                <i data-lucide="flower-2" style="color: var(--lavender);"></i> HERSPACE
-            </div>
+            <div class="logo"><i data-lucide="flower-2" style="color: var(--lavender);"></i> HERSPACE</div>
             <a class="nav-item active" onclick="navigate('dashboard')"><i data-lucide="layout-dashboard"></i> Dashboard</a>
             <a class="nav-item" onclick="navigate('cycle')"><i data-lucide="calendar-heart"></i> Cycle Care</a>
             <a class="nav-item" onclick="navigate('mood')"><i data-lucide="smile"></i> Mood Space</a>
             <a class="nav-item" onclick="navigate('creative')"><i data-lucide="palette"></i> Creative Studio</a>
             <a class="nav-item" onclick="navigate('health-guide')"><i data-lucide="message-circle-heart"></i> Health Guide</a>
             <a class="nav-item" onclick="navigate('doctor')"><i data-lucide="stethoscope"></i> Doctor Connect</a>
+            <a class="nav-item" onclick="navigate('journal')"><i data-lucide="book-open"></i> My Journal</a>
             <a class="nav-item" onclick="navigate('insights')"><i data-lucide="bar-chart-2"></i> Insights</a>
+            <a class="nav-item" onclick="navigate('settings')"><i data-lucide="settings"></i> Settings</a>
         </aside>
 
-        <!-- MAIN CONTENT AREA -->
+        <!-- MAIN CONTENT -->
         <main class="main-content">
-            
-            <!-- 1. DASHBOARD VIEW -->
-            <section id="view-dashboard" class="view-section active">
-                <div class="header-text">Hello, Ananya 🌷</div>
-                <div class="sub-text">Your personal wellness space is ready.</div>
 
+            <!-- DASHBOARD -->
+            <section id="view-dashboard" class="view-section active">
+                <div class="header-text" id="greeting-text">Hello, 🌷</div>
+                <div class="sub-text">Your personal wellness space is ready.</div>
                 <div class="grid-2">
-                    <!-- Cycle Widget -->
                     <div class="glass-card cycle-widget" onclick="navigate('cycle')" style="cursor: pointer;">
                         <div class="cycle-circle">
-                            <span class="cycle-day">12</span>
+                            <span class="cycle-day" id="dash-cycle-day">–</span>
                             <span class="cycle-label">Day</span>
                         </div>
-                        <div style="font-weight: 600; font-size: 16px; margin-bottom: 4px;">Follicular Phase</div>
-                        <div style="font-size: 12px; color: #8a7d8e;">Period in 15 days</div>
+                        <div style="font-weight: 600; font-size: 16px; margin-bottom: 4px;" id="dash-phase">Log your period to see phase</div>
+                        <div style="font-size: 12px; color: #8a7d8e;" id="dash-next-period">No data yet</div>
                     </div>
-
-                    <!-- Mood Widget -->
                     <div class="glass-card mood-widget" onclick="navigate('mood')" style="cursor: pointer;">
                         <div class="mood-buddy" id="dashboard-buddy">😊</div>
-                        <div style="font-weight: 600; font-size: 16px; margin-top: 12px;">Feeling Happy</div>
-                        <div style="font-size: 12px; color: #8a7d8e;">Tap to update mood</div>
+                        <div style="font-weight: 600; font-size: 16px; margin-top: 12px;" id="dash-mood-label">Log your mood</div>
+                        <div style="font-size: 12px; color: #8a7d8e;">Tap to update</div>
                     </div>
-
-                    <!-- Self Care Widget -->
                     <div class="glass-card" style="grid-column: span 1;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                             <div style="font-weight: 700;">Self-Care 🌸</div>
-                            <div style="font-size: 12px; font-weight: 600; color: var(--lavender);">2/5</div>
-                        </div>
-                        <div style="font-size: 13px; color: #6b5b72; line-height: 1.5;">
-                            Take a little break, drink water, and do something creative today.
+                            <div style="font-size: 12px; font-weight: 600; color: var(--lavender);" id="dash-selfcare-count">0/5</div>
                         </div>
                         <div style="height: 8px; background: #e0d6e4; border-radius: 4px; margin-top: 16px; overflow: hidden;">
-                            <div style="width: 40%; height: 100%; background: var(--lavender); border-radius: 4px;"></div>
+                            <div id="dash-selfcare-bar" style="width: 0%; height: 100%; background: var(--lavender); border-radius: 4px; transition: width 0.3s;"></div>
                         </div>
                     </div>
-
-                    <!-- Quick Links -->
                     <div class="glass-card" style="grid-column: span 1; display: flex; flex-direction: column; gap: 12px; justify-content: center;">
                         <button class="btn btn-outline" style="font-size: 14px; padding: 10px;" onclick="navigate('health-guide')">Ask AI Guide</button>
                         <button class="btn" style="font-size: 14px; padding: 10px;" onclick="navigate('creative')">Open Studio</button>
@@ -540,47 +214,58 @@
                 </div>
             </section>
 
-            <!-- 2. CYCLE CARE VIEW -->
+            <!-- CYCLE CARE -->
             <section id="view-cycle" class="view-section">
                 <div class="header-text">Cycle Care</div>
                 <div class="sub-text">Track your flow, symptoms, and predictions.</div>
-                
                 <div class="glass-card">
                     <div class="calendar-header">
-                        <button class="btn-outline" style="border:none; background:white; padding: 8px; border-radius: 8px; cursor:pointer;"><i data-lucide="chevron-left"></i></button>
-                        <div style="font-weight: 700;">April 2024</div>
-                        <button class="btn-outline" style="border:none; background:white; padding: 8px; border-radius: 8px; cursor:pointer;"><i data-lucide="chevron-right"></i></button>
+                        <button class="btn-outline" style="border:none; background:white; padding: 8px; border-radius: 8px; cursor:pointer;" onclick="changeMonth(-1)"><i data-lucide="chevron-left"></i></button>
+                        <div style="font-weight: 700;" id="calendar-month-label">Month Year</div>
+                        <button class="btn-outline" style="border:none; background:white; padding: 8px; border-radius: 8px; cursor:pointer;" onclick="changeMonth(1)"><i data-lucide="chevron-right"></i></button>
                     </div>
-                    <div class="calendar-grid" id="calendar-grid">
-                        <!-- JS will populate this -->
-                    </div>
-                    <div style="display: flex; gap: 16px; margin-top: 20px; font-size: 12px; justify-content: center;">
+                    <div class="calendar-grid" id="calendar-grid"></div>
+                    <div style="display: flex; gap: 16px; margin-top: 20px; font-size: 12px; justify-content: center; flex-wrap: wrap;">
                         <div style="display: flex; align-items: center; gap: 6px;"><div style="width: 10px; height: 10px; border-radius: 50%; background: var(--blush);"></div> Period</div>
                         <div style="display: flex; align-items: center; gap: 6px;"><div style="width: 10px; height: 10px; border-radius: 50%; border: 2px dashed var(--blush);"></div> Predicted</div>
+                        <div style="display: flex; align-items: center; gap: 6px;"><div style="width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--lavender);"></div> Today</div>
                     </div>
                 </div>
-
                 <div class="glass-card">
-                    <div style="font-weight: 700; margin-bottom: 12px;">Log Symptoms</div>
-                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                        <span style="padding: 8px 12px; background: white; border-radius: 20px; font-size: 12px; border: 1px solid var(--blush); color: #d48c9c; cursor:pointer;">Cramps</span>
-                        <span style="padding: 8px 12px; background: white; border-radius: 20px; font-size: 12px; cursor:pointer;">Headache</span>
-                        <span style="padding: 8px 12px; background: white; border-radius: 20px; font-size: 12px; cursor:pointer;">Bloating</span>
-                        <span style="padding: 8px 12px; background: white; border-radius: 20px; font-size: 12px; cursor:pointer;">Acne</span>
+                    <div style="font-weight: 700; margin-bottom: 12px;">Log / Edit Period</div>
+                    <div class="flex-row" style="flex-wrap: wrap;">
+                        <input type="date" id="period-start" style="padding: 10px; border-radius: 12px; border: 1px solid #ddd; font-family: inherit; flex: 1;">
+                        <input type="date" id="period-end" style="padding: 10px; border-radius: 12px; border: 1px solid #ddd; font-family: inherit; flex: 1;">
                     </div>
+                    <div class="flex-row mt-16" style="flex-wrap: wrap;">
+                        <select id="period-flow" style="padding: 10px; border-radius: 12px; border: 1px solid #ddd; font-family: inherit; flex: 1;">
+                            <option value="light">Light flow</option>
+                            <option value="medium" selected>Medium flow</option>
+                            <option value="heavy">Heavy flow</option>
+                        </select>
+                        <button class="btn" style="width: auto; padding: 10px 20px;" onclick="savePeriod()">Save</button>
+                    </div>
+                    <div class="mt-16">
+                        <div style="font-weight: 600; margin-bottom: 8px;">Log Symptoms</div>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap;" id="symptom-chips">
+                            <span class="symptom-chip" onclick="toggleSymptom(this, 'Cramps')" style="padding: 8px 12px; background: white; border-radius: 20px; font-size: 12px; border: 1px solid #ddd; cursor:pointer;">Cramps</span>
+                            <span class="symptom-chip" onclick="toggleSymptom(this, 'Headache')" style="padding: 8px 12px; background: white; border-radius: 20px; font-size: 12px; border: 1px solid #ddd; cursor:pointer;">Headache</span>
+                            <span class="symptom-chip" onclick="toggleSymptom(this, 'Bloating')" style="padding: 8px 12px; background: white; border-radius: 20px; font-size: 12px; border: 1px solid #ddd; cursor:pointer;">Bloating</span>
+                            <span class="symptom-chip" onclick="toggleSymptom(this, 'Acne')" style="padding: 8px 12px; background: white; border-radius: 20px; font-size: 12px; border: 1px solid #ddd; cursor:pointer;">Acne</span>
+                        </div>
+                    </div>
+                    <div class="mt-16" id="period-history"></div>
                 </div>
             </section>
 
-            <!-- 3. MOOD SPACE VIEW -->
+            <!-- MOOD SPACE -->
             <section id="view-mood" class="view-section">
                 <div class="header-text">Mood Space</div>
                 <div class="sub-text">How are you feeling right now?</div>
-
                 <div class="glass-card" style="text-align: center; padding: 40px 20px;">
                     <div class="mood-buddy" id="main-mood-buddy" style="width: 120px; height: 120px; font-size: 48px; margin: 0 auto;">😐</div>
                     <div style="margin-top: 24px; font-weight: 600; color: var(--plum);" id="mood-status-text">Select your mood below</div>
                 </div>
-
                 <div class="mood-options">
                     <button class="mood-btn" onclick="setMood('😊', 'Happy')">😊</button>
                     <button class="mood-btn" onclick="setMood('😔', 'Sad')">😔</button>
@@ -590,25 +275,27 @@
                     <button class="mood-btn" onclick="setMood('😴', 'Tired')">😴</button>
                     <button class="mood-btn" onclick="setMood('🤩', 'Excited')">🤩</button>
                 </div>
-
-                <div class="glass-card" style="margin-top: 24px;">
-                    <div style="font-weight: 700; margin-bottom: 12px;">Activities for you</div>
-                    <div style="display: flex; flex-direction: column; gap: 8px;">
-                        <div style="background: white; padding: 12px; border-radius: 12px; font-size: 14px; display: flex; justify-content: space-between;">
-                            <span>🫧 Bubble Pop</span> <i data-lucide="chevron-right" style="width:16px;"></i>
-                        </div>
-                        <div style="background: white; padding: 12px; border-radius: 12px; font-size: 14px; display: flex; justify-content: space-between;">
-                            <span>🧘 Breathing Exercise</span> <i data-lucide="chevron-right" style="width:16px;"></i>
+                <div class="glass-card mt-16">
+                    <div style="font-weight: 700; margin-bottom: 12px;">Recent Mood History</div>
+                    <div id="mood-history"></div>
+                </div>
+                <div class="glass-card mt-16">
+                    <div style="font-weight: 700; margin-bottom: 12px;">🧘 Breathing Exercise</div>
+                    <div style="text-align: center; padding: 20px;">
+                        <div id="breath-circle" style="width: 80px; height: 80px; border-radius: 50%; background: var(--lavender); margin: 0 auto 16px auto; transition: transform 4s ease-in-out;"></div>
+                        <div id="breath-status" class="text-sm text-muted">Press start</div>
+                        <div class="flex-row mt-16" style="justify-content: center;">
+                            <button class="btn btn-outline" style="width: auto; padding: 8px 20px;" onclick="startBreathing()">Start</button>
+                            <button class="btn btn-outline" style="width: auto; padding: 8px 20px;" onclick="stopBreathing()">Stop</button>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- 4. CREATIVE STUDIO VIEW -->
+            <!-- CREATIVE STUDIO -->
             <section id="view-creative" class="view-section">
                 <div class="header-text">Creative Studio</div>
                 <div class="sub-text">Express yourself with colors.</div>
-
                 <div class="glass-card" style="padding: 12px;">
                     <canvas id="paint-canvas"></canvas>
                     <div class="paint-tools">
@@ -617,20 +304,22 @@
                         <div class="color-swatch" style="background: #F3CADB;" onclick="setColor('#F3CADB', this)"></div>
                         <div class="color-swatch" style="background: #DCE8DC;" onclick="setColor('#DCE8DC', this)"></div>
                         <div class="color-swatch" style="background: #F6D6C1;" onclick="setColor('#F6D6C1', this)"></div>
-                        
-                        <button onclick="clearCanvas()" style="border:none; background: #ffebeb; color: #d66; padding: 8px 12px; border-radius: 8px; cursor: pointer; margin-left: auto;">Clear</button>
+                        <input type="range" id="brush-size" min="1" max="20" value="4" style="width: 80px;" oninput="updateBrushSize(this.value)">
+                        <button onclick="toggleEraser()" id="eraser-btn" style="border:1px solid #ddd; background: white; padding: 6px 12px; border-radius: 8px; cursor: pointer;">Eraser</button>
+                        <button onclick="saveDrawing()" style="border:none; background: var(--sage); padding: 8px 12px; border-radius: 8px; cursor: pointer;">Save</button>
+                        <button onclick="downloadDrawing()" style="border:none; background: var(--peach); padding: 8px 12px; border-radius: 8px; cursor: pointer;">Download</button>
+                        <button onclick="clearCanvas()" style="border:none; background: #ffebeb; color: #d66; padding: 8px 12px; border-radius: 8px; cursor: pointer;">Clear</button>
                     </div>
                 </div>
             </section>
 
-            <!-- 5. HER HEALTH GUIDE VIEW (AI) -->
+            <!-- HER HEALTH GUIDE -->
             <section id="view-health-guide" class="view-section">
                 <div class="header-text">HER Health Guide</div>
                 <div class="sub-text">Ask educational questions about your body.</div>
-
                 <div class="glass-card chat-container">
                     <div class="chat-messages" id="chat-messages">
-                        <div class="msg ai">Hi Ananya! I'm your AI wellness companion. Ask me anything about menstrual health, hygiene, or self-care. (Note: I am an AI, not a doctor).</div>
+                        <div class="msg ai">Hi! I'm your AI wellness companion. Ask me anything about menstrual health, hygiene, or self-care.<br><br><span class="text-sm text-muted">⚠️ Demo mode: Responses are pre-written examples. For real AI, set up a backend API endpoint.</span></div>
                     </div>
                     <div class="chat-input-area">
                         <input type="text" class="chat-input" id="chat-input" placeholder="Ask a question..." onkeypress="handleChatEnter(event)">
@@ -639,48 +328,88 @@
                 </div>
             </section>
 
-            <!-- 6. DOCTOR CONNECT VIEW -->
+            <!-- DOCTOR CONNECT -->
             <section id="view-doctor" class="view-section">
                 <div class="header-text">Doctor Connect</div>
-                <div class="sub-text">Consult with verified gynecologists.</div>
-                
+                <div class="sub-text">Consult with gynecologists.</div>
                 <div class="glass-card">
                     <div style="background: #fff3cd; color: #856404; padding: 12px; border-radius: 12px; font-size: 12px; margin-bottom: 16px;">
-                        ⚠️ Demo Mode: These are mock profiles for demonstration purposes.
+                        ⚠️ <strong>DEMO ONLY:</strong> These are fictional profiles. No real appointments can be booked. This interface is a placeholder for future integration.
                     </div>
-
                     <div class="doctor-card" style="margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 16px;">
                         <div class="doc-avatar">👩🏽‍⚕️</div>
                         <div style="flex: 1;">
-                            <div style="font-weight: 700; font-size: 16px;">Dr. Sneha Sharma</div>
+                            <div style="font-weight: 700; font-size: 16px;">Dr. Demo Sharma (Fictional)</div>
                             <div style="font-size: 12px; color: #8a7d8e;">MD, Obstetrics & Gynecology</div>
-                            <div style="font-size: 12px; color: var(--sage); font-weight: 600; margin-top: 4px;">Verified • English, Hindi</div>
+                            <div style="font-size: 12px; color: #d66; font-weight: 600; margin-top: 4px;">Demo profile – not a real doctor</div>
                         </div>
-                        <button class="btn" style="width: auto; padding: 8px 16px; font-size: 12px;" onclick="alert('Appointment requested (Mock)')">Book</button>
+                        <button class="btn" style="width: auto; padding: 8px 16px; font-size: 12px;" onclick="alert('Demo only. No real booking backend connected.')">Request</button>
                     </div>
-                    
                     <div class="doctor-card">
                         <div class="doc-avatar" style="background: #e6e6fa;">👩🏻‍⚕️</div>
                         <div style="flex: 1;">
-                            <div style="font-weight: 700; font-size: 16px;">Dr. Priya Patel</div>
+                            <div style="font-weight: 700; font-size: 16px;">Dr. Demo Patel (Fictional)</div>
                             <div style="font-size: 12px; color: #8a7d8e;">MBBS, DGO</div>
-                            <div style="font-size: 12px; color: var(--sage); font-weight: 600; margin-top: 4px;">Verified • English, Gujarati</div>
+                            <div style="font-size: 12px; color: #d66; font-weight: 600; margin-top: 4px;">Demo profile – not a real doctor</div>
                         </div>
-                        <button class="btn" style="width: auto; padding: 8px 16px; font-size: 12px;" onclick="alert('Appointment requested (Mock)')">Book</button>
+                        <button class="btn" style="width: auto; padding: 8px 16px; font-size: 12px;" onclick="alert('Demo only. No real booking backend connected.')">Request</button>
                     </div>
                 </div>
             </section>
 
-            <!-- 7. INSIGHTS VIEW -->
+            <!-- JOURNAL -->
+            <section id="view-journal" class="view-section">
+                <div class="header-text">My Journal</div>
+                <div class="sub-text">Your private diary. Only you can see this.</div>
+                <div class="glass-card">
+                    <textarea id="journal-input" placeholder="Write your thoughts..." style="width:100%; height:120px; border-radius:16px; border:1px solid #ddd; padding:12px; font-family:inherit; font-size:14px; resize:vertical;"></textarea>
+                    <div class="flex-row mt-16">
+                        <input type="date" id="journal-date" style="padding:10px; border-radius:12px; border:1px solid #ddd; font-family:inherit;">
+                        <button class="btn" style="width:auto; padding:10px 20px;" onclick="saveJournalEntry()">Save Entry</button>
+                    </div>
+                </div>
+                <div id="journal-entries"></div>
+            </section>
+
+            <!-- INSIGHTS -->
             <section id="view-insights" class="view-section">
                 <div class="header-text">Wellness Insights</div>
                 <div class="sub-text">Your monthly cycle and mood trends.</div>
-
                 <div class="glass-card">
                     <div style="font-weight: 700; margin-bottom: 16px;">Cycle Length History</div>
-                    <div class="chart-container">
+                    <div class="chart-container" id="chart-container">
                         <canvas id="cycleChart"></canvas>
                     </div>
+                    <div id="chart-empty-state" class="empty-state" style="display:none;">
+                        <i data-lucide="bar-chart-2"></i>
+                        <div>Log at least 2 periods to see cycle trends.</div>
+                    </div>
+                </div>
+                <div class="glass-card">
+                    <div style="font-weight: 700; margin-bottom: 12px;">Mood Distribution</div>
+                    <div class="chart-container" id="mood-chart-container">
+                        <canvas id="moodChart"></canvas>
+                    </div>
+                    <div id="mood-chart-empty" class="empty-state" style="display:none;">
+                        <i data-lucide="smile"></i>
+                        <div>Log some moods to see your distribution.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SETTINGS -->
+            <section id="view-settings" class="view-section">
+                <div class="header-text">Settings</div>
+                <div class="sub-text">Manage your profile and data.</div>
+                <div class="glass-card">
+                    <div style="font-weight: 700; margin-bottom: 12px;">Profile</div>
+                    <input type="text" id="settings-name" placeholder="Your name" style="width:100%; padding:12px; border-radius:12px; border:1px solid #ddd; font-family:inherit; margin-bottom:8px;">
+                    <button class="btn" style="width:auto; padding:8px 20px;" onclick="updateName()">Update Name</button>
+                </div>
+                <div class="glass-card">
+                    <div style="font-weight: 700; margin-bottom: 12px;">Data</div>
+                    <button class="btn btn-outline" style="margin-bottom:8px;" onclick="exportData()">Export All Data (JSON)</button>
+                    <button class="btn btn-danger" onclick="clearAllData()">Delete All Data</button>
                 </div>
             </section>
 
@@ -697,210 +426,558 @@
     </nav>
 
     <script>
-        // Initialize Icons
-        lucide.createIcons();
+        // ========== STORAGE KEYS ==========
+        const KEYS = {
+            PROFILE: 'herspace_profile',
+            PERIODS: 'herspace_periods',
+            MOODS: 'herspace_moods',
+            JOURNAL: 'herspace_journal',
+            SELFCARE: 'herspace_selfcare',
+            DRAWINGS: 'herspace_drawings'
+        };
 
-        // --- ROUTING & NAVIGATION ---
-        function navigate(viewId) {
-            // Hide all views
-            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-            // Show target view
-            const target = document.getElementById(`view-${viewId}`);
-            if(target) target.classList.add('active');
+        // ========== STATE ==========
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        let currentColor = '#49354F';
+        let currentBrushSize = 4;
+        let isEraser = false;
+        let breathingInterval = null;
+        let chartInstance = null;
+        let moodChartInstance = null;
 
-            // Update Desktop Nav
-            document.querySelectorAll('.sidebar .nav-item').forEach(el => {
-                el.classList.remove('active');
-                if(el.getAttribute('onclick').includes(viewId)) el.classList.add('active');
-            });
-
-            // Update Mobile Nav
-            document.querySelectorAll('.bottom-nav .nav-item-mobile').forEach(el => {
-                el.classList.remove('active');
-                if(el.getAttribute('onclick').includes(viewId)) el.classList.add('active');
-            });
-
-            // Specific view initializations
-            if(viewId === 'cycle') renderCalendar();
-            if(viewId === 'insights') initCharts();
+        // ========== ONBOARDING ==========
+        function completeOnboarding() {
+            const name = document.getElementById('onboarding-name').value.trim();
+            const cycleInput = document.getElementById('onboarding-cycle').value;
+            if (!name) { alert('Please enter a name.'); return; }
+            const profile = {
+                name: name,
+                cycleLength: cycleInput ? parseInt(cycleInput) : null,
+                createdAt: new Date().toISOString()
+            };
+            localStorage.setItem(KEYS.PROFILE, JSON.stringify(profile));
+            document.getElementById('onboarding-overlay').classList.add('hidden');
+            initApp();
         }
 
-        // --- CYCLE TRACKER LOGIC ---
+        // ========== ROUTING ==========
+        function navigate(viewId) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            const target = document.getElementById(`view-${viewId}`);
+            if (target) target.classList.add('active');
+            document.querySelectorAll('.sidebar .nav-item').forEach(el => {
+                el.classList.remove('active');
+                if (el.getAttribute('onclick') && el.getAttribute('onclick').includes(viewId)) el.classList.add('active');
+            });
+            document.querySelectorAll('.bottom-nav .nav-item-mobile').forEach(el => {
+                el.classList.remove('active');
+                if (el.getAttribute('onclick') && el.getAttribute('onclick').includes(viewId)) el.classList.add('active');
+            });
+            if (viewId === 'cycle') renderCalendar();
+            if (viewId === 'insights') renderCharts();
+            if (viewId === 'journal') renderJournalEntries();
+            if (viewId === 'mood') renderMoodHistory();
+        }
+
+        // ========== CYCLE ENGINE ==========
+        function getPeriods() {
+            try { return JSON.parse(localStorage.getItem(KEYS.PERIODS)) || []; } catch { return []; }
+        }
+
+        function savePeriods(periods) {
+            localStorage.setItem(KEYS.PERIODS, JSON.stringify(periods));
+        }
+
+        function calculateAverageCycleLength() {
+            const periods = getPeriods().slice().sort((a, b) => new Date(a.start) - new Date(b.start));
+            if (periods.length < 2) {
+                const profile = JSON.parse(localStorage.getItem(KEYS.PROFILE)) || {};
+                return profile.cycleLength || 28;
+            }
+            const recent = periods.slice(-6);
+            let total = 0, count = 0;
+            for (let i = 1; i < recent.length; i++) {
+                const diff = (new Date(recent[i].start) - new Date(recent[i-1].start)) / (1000 * 60 * 60 * 24);
+                if (diff > 15 && diff < 60) { total += diff; count++; }
+            }
+            return count > 0 ? Math.round(total / count) : (JSON.parse(localStorage.getItem(KEYS.PROFILE))?.cycleLength || 28);
+        }
+
+        function predictNextPeriod() {
+            const periods = getPeriods().slice().sort((a, b) => new Date(a.start) - new Date(b.start));
+            if (periods.length === 0) return null;
+            const last = periods[periods.length - 1];
+            const avg = calculateAverageCycleLength();
+            const next = new Date(last.start);
+            next.setDate(next.getDate() + avg);
+            return next;
+        }
+
+        function savePeriod() {
+            const start = document.getElementById('period-start').value;
+            const end = document.getElementById('period-end').value;
+            const flow = document.getElementById('period-flow').value;
+            if (!start || !end) { alert('Please select start and end dates.'); return; }
+            if (new Date(end) < new Date(start)) { alert('End date cannot be before start date.'); return; }
+            const symptoms = Array.from(document.querySelectorAll('.symptom-chip.selected')).map(c => c.dataset.symptom || c.innerText.trim());
+            const periods = getPeriods();
+            periods.push({ start, end, flow, symptoms, loggedAt: new Date().toISOString() });
+            savePeriods(periods);
+            renderCalendar();
+            renderPeriodHistory();
+            updateDashboard();
+            alert('Period saved!');
+        }
+
+        function deletePeriod(index) {
+            if (!confirm('Delete this period entry?')) return;
+            const periods = getPeriods();
+            periods.splice(index, 1);
+            savePeriods(periods);
+            renderCalendar();
+            renderPeriodHistory();
+            updateDashboard();
+        }
+
+        function renderPeriodHistory() {
+            const container = document.getElementById('period-history');
+            const periods = getPeriods().slice().reverse();
+            if (periods.length === 0) {
+                container.innerHTML = '<div class="empty-state"><i data-lucide="calendar"></i><div>No periods logged yet.</div></div>';
+                lucide.createIcons();
+                return;
+            }
+            container.innerHTML = periods.map((p, i) => `
+                <div class="glass-card" style="padding: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <div style="font-weight: 600; font-size: 14px;">${p.start} → ${p.end}</div>
+                        <div class="text-sm text-muted">Flow: ${p.flow} | Symptoms: ${p.symptoms.join(', ') || 'None'}</div>
+                    </div>
+                    <button onclick="deletePeriod(${getPeriods().length - 1 - i})" style="background:none; border:none; cursor:pointer; color:#d66;">✕</button>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        // ========== CALENDAR ==========
         function renderCalendar() {
             const grid = document.getElementById('calendar-grid');
-            if(!grid) return;
+            const label = document.getElementById('calendar-month-label');
+            if (!grid || !label) return;
+            const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+            label.innerText = `${months[currentMonth]} ${currentYear}`;
             grid.innerHTML = '';
-            
-            // Days header
-            const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-            days.forEach(d => {
-                grid.innerHTML += `<div style="font-size:10px; font-weight:700; color:#a0a0a0; margin-bottom:8px;">${d}</div>`;
-            });
+            const days = ['S','M','T','W','T','F','S'];
+            days.forEach(d => grid.innerHTML += `<div style="font-size:10px; font-weight:700; color:#a0a0a0; margin-bottom:8px;">${d}</div>`);
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            for (let i = 0; i < firstDay; i++) grid.innerHTML += '<div></div>';
+            const periods = getPeriods();
+            const today = new Date();
+            const isCurrentMonth = today.getMonth() === currentMonth && today.getFullYear() === currentYear;
+            const predicted = predictNextPeriod();
+            for (let d = 1; d <= daysInMonth; d++) {
+                const dateStr = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+                let cls = 'cal-day';
+                const inPeriod = periods.some(p => dateStr >= p.start && dateStr <= p.end);
+                if (inPeriod) cls += ' period';
+                if (predicted) {
+                    const predStart = new Date(predicted);
+                    const predEnd = new Date(predicted); predEnd.setDate(predEnd.getDate() + 4);
+                    const predStartStr = predStart.toISOString().slice(0,10);
+                    const predEndStr = predEnd.toISOString().slice(0,10);
+                    if (dateStr >= predStartStr && dateStr <= predEndStr && !inPeriod) cls += ' predicted';
+                }
+                if (isCurrentMonth && d === today.getDate()) cls += ' today';
+                grid.innerHTML += `<div class="${cls}">${d}</div>`;
+            }
+            lucide.createIcons();
+        }
 
-            // Mock April 2024 (starts on Monday)
-            for(let i=0; i<1; i++) grid.innerHTML += `<div></div>`; // Empty slots
-            
-            for(let i=1; i<=30; i++) {
-                let classes = 'cal-day';
-                if(i >= 14 && i <= 18) classes += ' period'; // Mock Period
-                if(i >= 12 && i <= 13) classes += ' predicted'; // Mock prediction
-                if(i === 12) classes += ' today'; // Mock today
-                
-                grid.innerHTML += `<div class="${classes}">${i}</div>`;
+        function changeMonth(delta) {
+            currentMonth += delta;
+            if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+            if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+            renderCalendar();
+        }
+
+        // ========== MOOD ==========
+        function setMood(emoji, text) {
+            const moods = getMoods();
+            moods.push({ emoji, text, date: new Date().toISOString() });
+            localStorage.setItem(KEYS.MOODS, JSON.stringify(moods));
+            const main = document.getElementById('main-mood-buddy');
+            const dash = document.getElementById('dashboard-buddy');
+            const status = document.getElementById('mood-status-text');
+            if (main) { main.innerText = emoji; main.style.transform = 'scale(0.9,0.8)'; setTimeout(() => main.style.transform = 'scale(1)', 150); }
+            if (dash) dash.innerText = emoji;
+            if (status) status.innerText = `Feeling ${text}`;
+            renderMoodHistory();
+        }
+
+        function getMoods() {
+            try { return JSON.parse(localStorage.getItem(KEYS.MOODS)) || []; } catch { return []; }
+        }
+
+        function renderMoodHistory() {
+            const container = document.getElementById('mood-history');
+            if (!container) return;
+            const moods = getMoods().slice().reverse().slice(0, 10);
+            if (moods.length === 0) {
+                container.innerHTML = '<div class="empty-state"><i data-lucide="smile"></i><div>No moods logged yet.</div></div>';
+                lucide.createIcons();
+                return;
+            }
+            container.innerHTML = moods.map(m => `
+                <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #eee; font-size:14px;">
+                    <span>${m.emoji} ${m.text}</span>
+                    <span class="text-sm text-muted">${new Date(m.date).toLocaleDateString()}</span>
+                </div>
+            `).join('');
+        }
+
+        // ========== BREATHING ==========
+        function startBreathing() {
+            const circle = document.getElementById('breath-circle');
+            const status = document.getElementById('breath-status');
+            if (!circle) return;
+            let phase = 0;
+            const phases = ['Breathe in...', 'Hold...', 'Breathe out...'];
+            circle.style.transform = 'scale(1.5)';
+            status.innerText = phases[0];
+            breathingInterval = setInterval(() => {
+                phase = (phase + 1) % 3;
+                status.innerText = phases[phase];
+                circle.style.transform = phase === 0 ? 'scale(1.5)' : (phase === 1 ? 'scale(1.5)' : 'scale(1)');
+            }, 4000);
+        }
+
+        function stopBreathing() {
+            clearInterval(breathingInterval);
+            const circle = document.getElementById('breath-circle');
+            const status = document.getElementById('breath-status');
+            if (circle) circle.style.transform = 'scale(1)';
+            if (status) status.innerText = 'Press start';
+        }
+
+        // ========== JOURNAL ==========
+        function getJournal() {
+            try { return JSON.parse(localStorage.getItem(KEYS.JOURNAL)) || []; } catch { return []; }
+        }
+
+        function saveJournalEntry() {
+            const text = document.getElementById('journal-input').value.trim();
+            const date = document.getElementById('journal-date').value || new Date().toISOString().slice(0,10);
+            if (!text) { alert('Please write something.'); return; }
+            const entries = getJournal();
+            entries.push({ text, date, createdAt: new Date().toISOString() });
+            localStorage.setItem(KEYS.JOURNAL, JSON.stringify(entries));
+            document.getElementById('journal-input').value = '';
+            renderJournalEntries();
+        }
+
+        function deleteJournalEntry(index) {
+            if (!confirm('Delete this entry?')) return;
+            const entries = getJournal();
+            entries.splice(index, 1);
+            localStorage.setItem(KEYS.JOURNAL, JSON.stringify(entries));
+            renderJournalEntries();
+        }
+
+        function renderJournalEntries() {
+            const container = document.getElementById('journal-entries');
+            if (!container) return;
+            const entries = getJournal().slice().reverse();
+            if (entries.length === 0) {
+                container.innerHTML = '<div class="empty-state"><i data-lucide="book-open"></i><div>No journal entries yet.</div></div>';
+                lucide.createIcons();
+                return;
+            }
+            container.innerHTML = entries.map((e, i) => `
+                <div class="glass-card" style="margin-bottom: 8px;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                        <span class="text-sm text-muted">${e.date}</span>
+                        <button onclick="deleteJournalEntry(${getJournal().length - 1 - i})" style="background:none; border:none; cursor:pointer; color:#d66;">✕</button>
+                    </div>
+                    <div style="font-size:14px; line-height:1.5;">${e.text}</div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
+
+        // ========== SELF-CARE ==========
+        const SELF_CARE_ITEMS = ['Drink 8 glasses of water', 'Take a 10-min walk', 'Do something creative', 'Get 7+ hours sleep', 'Practice deep breathing'];
+
+        function getSelfCare() {
+            const today = new Date().toISOString().slice(0,10);
+            try {
+                const data = JSON.parse(localStorage.getItem(KEYS.SELFCARE)) || {};
+                if (data.date !== today) return { date: today, checked: [] };
+                return data;
+            } catch { return { date: today, checked: [] }; }
+        }
+
+        function toggleSelfCare(index) {
+            const data = getSelfCare();
+            if (data.checked.includes(index)) data.checked = data.checked.filter(i => i !== index);
+            else data.checked.push(index);
+            localStorage.setItem(KEYS.SELFCARE, JSON.stringify(data));
+            updateSelfCareUI();
+        }
+
+        function updateSelfCareUI() {
+            const data = getSelfCare();
+            const count = data.checked.length;
+            const total = SELF_CARE_ITEMS.length;
+            const dashCount = document.getElementById('dash-selfcare-count');
+            const dashBar = document.getElementById('dash-selfcare-bar');
+            if (dashCount) dashCount.innerText = `${count}/${total}`;
+            if (dashBar) dashBar.style.width = `${(count/total)*100}%`;
+            const container = document.getElementById('selfcare-list');
+            if (container) {
+                container.innerHTML = SELF_CARE_ITEMS.map((item, i) => `
+                    <div style="display:flex; align-items:center; gap:12px; padding:8px 0; cursor:pointer;" onclick="toggleSelfCare(${i})">
+                        <div style="width:20px; height:20px; border-radius:6px; border:2px solid ${data.checked.includes(i) ? 'var(--lavender)' : '#ddd'}; background:${data.checked.includes(i) ? 'var(--lavender)' : 'transparent'}; display:flex; justify-content:center; align-items:center; color:white; font-size:12px;">${data.checked.includes(i) ? '✓' : ''}</div>
+                        <span style="font-size:14px; ${data.checked.includes(i) ? 'text-decoration:line-through; opacity:0.6;' : ''}">${item}</span>
+                    </div>
+                `).join('');
             }
         }
 
-        // --- MOOD BUDDY LOGIC ---
-        function setMood(emoji, text) {
-            const mainBuddy = document.getElementById('main-mood-buddy');
-            const dashBuddy = document.getElementById('dashboard-buddy');
-            const statusText = document.getElementById('mood-status-text');
-            
-            if(mainBuddy) mainBuddy.innerText = emoji;
-            if(dashBuddy) dashBuddy.innerText = emoji;
-            if(statusText) statusText.innerText = `Feeling ${text}`;
-            
-            // Little squish animation
-            mainBuddy.style.transform = 'scale(0.9, 0.8)';
-            setTimeout(() => mainBuddy.style.transform = 'scale(1)', 150);
-        }
-
-        // --- CREATIVE CANVAS LOGIC ---
+        // ========== CANVAS ==========
         const canvas = document.getElementById('paint-canvas');
-        let ctx = canvas.getContext('2d');
-        let isDrawing = false;
-        let currentColor = '#49354F';
+        let ctx, isDrawing = false;
 
-        // Set canvas resolution
-        function resizeCanvas() {
+        function initCanvas() {
+            if (!canvas) return;
+            ctx = canvas.getContext('2d');
             const rect = canvas.getBoundingClientRect();
             canvas.width = rect.width;
             canvas.height = rect.height;
-            ctx.lineCap = 'round';
-            ctx.lineJoin = 'round';
-            ctx.lineWidth = 4;
-        }
-        
-        // Use ResizeObserver to handle responsive canvas
-        if(canvas) {
-            new ResizeObserver(resizeCanvas).observe(canvas);
-            resizeCanvas();
-            
+            ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.lineWidth = currentBrushSize;
             canvas.addEventListener('mousedown', startDrawing);
             canvas.addEventListener('mousemove', draw);
             canvas.addEventListener('mouseup', stopDrawing);
             canvas.addEventListener('mouseout', stopDrawing);
-            
-            // Touch support
-            canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startDrawing(e.touches[0]); }, {passive: false});
-            canvas.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e.touches[0]); }, {passive: false});
+            canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startDrawing(e.touches[0]); }, {passive:false});
+            canvas.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e.touches[0]); }, {passive:false});
             canvas.addEventListener('touchend', stopDrawing);
         }
 
-        function startDrawing(e) {
-            isDrawing = true;
-            ctx.beginPath();
-            ctx.moveTo(e.offsetX, e.offsetY);
+        function startDrawing(e) { isDrawing = true; ctx.beginPath(); ctx.moveTo(e.offsetX, e.offsetY); }
+        function draw(e) { if(!isDrawing) return; ctx.strokeStyle = isEraser ? '#FFFFFF' : currentColor; ctx.lineWidth = currentBrushSize; ctx.lineTo(e.offsetX, e.offsetY); ctx.stroke(); }
+        function stopDrawing() { isDrawing = false; ctx.closePath(); }
+        function setColor(color, el) { currentColor = color; isEraser = false; document.getElementById('eraser-btn').style.background = 'white'; document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active')); el.classList.add('active'); }
+        function updateBrushSize(val) { currentBrushSize = parseInt(val); }
+        function toggleEraser() { isEraser = !isEraser; document.getElementById('eraser-btn').style.background = isEraser ? 'var(--sage)' : 'white'; }
+        function clearCanvas() { if(confirm('Clear the canvas?')) ctx.clearRect(0,0,canvas.width,canvas.height); }
+        function saveDrawing() {
+            const drawings = JSON.parse(localStorage.getItem(KEYS.DRAWINGS)) || [];
+            drawings.push(canvas.toDataURL());
+            localStorage.setItem(KEYS.DRAWINGS, JSON.stringify(drawings));
+            alert('Drawing saved!');
+        }
+        function downloadDrawing() {
+            const link = document.createElement('a');
+            link.download = 'herspace-drawing.png';
+            link.href = canvas.toDataURL();
+            link.click();
         }
 
-        function draw(e) {
-            if(!isDrawing) return;
-            ctx.strokeStyle = currentColor;
-            ctx.lineTo(e.offsetX, e.offsetY);
-            ctx.stroke();
-        }
+        // ========== AI CHAT ==========
+        function handleChatEnter(e) { if(e.key === 'Enter') sendChatMessage(); }
 
-        function stopDrawing() {
-            isDrawing = false;
-            ctx.closePath();
-        }
-
-        function setColor(color, el) {
-            currentColor = color;
-            document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
-            el.classList.add('active');
-        }
-
-        function clearCanvas() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }
-
-        // --- AI CHAT LOGIC ---
-        function handleChatEnter(e) {
-            if(e.key === 'Enter') sendChatMessage();
-        }
-
-        function sendChatMessage() {
+        async function sendChatMessage() {
             const input = document.getElementById('chat-input');
             const msg = input.value.trim();
-            if(!msg) return;
-
+            if (!msg) return;
             const container = document.getElementById('chat-messages');
-            
-            // Add user message
             container.innerHTML += `<div class="msg user">${msg}</div>`;
             input.value = '';
             container.scrollTop = container.scrollHeight;
 
-            // Simulate AI typing
-            setTimeout(() => {
-                let aiResponse = "I'm a demo AI. In the full version, I would search our verified medical database to answer your question about: " + msg + ". Please consult a doctor for personalized medical advice.";
-                
-                if(msg.toLowerCase().includes('cramp')) {
-                    aiResponse = "Period cramps are common. Applying a heating pad, gentle stretching, and staying hydrated can help. If pain is severe, please consult a gynecologist.";
-                } else if(msg.toLowerCase().includes('pad') || msg.toLowerCase().includes('hygiene')) {
-                    aiResponse = "It's generally recommended to change your pad every 4-6 hours to maintain hygiene and prevent infections. Wash the area with warm water and mild soap.";
-                } else if(msg.toLowerCase().includes('irregular')) {
-                    aiResponse = "Irregular periods can be caused by stress, changes in weight, or hormonal imbalances. If your cycle is consistently shorter than 21 days or longer than 35 days, it's best to see a doctor.";
+            // Check for API endpoint
+            const apiEndpoint = window.HERSPACE_AI_ENDPOINT;
+            if (apiEndpoint) {
+                try {
+                    const res = await fetch(apiEndpoint, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ message: msg })
+                    });
+                    const data = await res.json();
+                    container.innerHTML += `<div class="msg ai">${data.reply || data.message || 'I received your question.'}</div>`;
+                } catch (err) {
+                    container.innerHTML += `<div class="msg ai">⚠️ Could not reach AI service. Please try again later.</div>`;
                 }
-
-                container.innerHTML += `<div class="msg ai">${aiResponse}</div>`;
-                container.scrollTop = container.scrollHeight;
-            }, 1000);
+            } else {
+                // Demo responses
+                setTimeout(() => {
+                    let reply = "I'm a demo assistant. In the full version, I would search our verified medical database to answer your question.";
+                    const lower = msg.toLowerCase();
+                    if (lower.includes('cramp')) reply = "Period cramps are common. Applying a heating pad, gentle stretching, and staying hydrated can help. If pain is severe, please consult a gynecologist.";
+                    else if (lower.includes('pad') || lower.includes('hygiene')) reply = "It's generally recommended to change your pad every 4-6 hours to maintain hygiene. Wash the area with warm water and mild soap.";
+                    else if (lower.includes('irregular')) reply = "Irregular periods can be caused by stress, weight changes, or hormonal imbalances. If your cycle is consistently shorter than 21 days or longer than 35 days, see a doctor.";
+                    else if (lower.includes('mood')) reply = "Mood swings are common due to hormonal changes during your cycle. Gentle exercise, rest, and journaling can help.";
+                    container.innerHTML += `<div class="msg ai">${reply}<br><br><span class="text-sm text-muted">⚠️ Demo response. Not medical advice.</span></div>`;
+                    container.scrollTop = container.scrollHeight;
+                }, 800);
+            }
         }
 
-        // --- ANALYTICS CHARTS ---
-        let chartInstance = null;
-        function initCharts() {
-            const ctx = document.getElementById('cycleChart');
-            if(!ctx || chartInstance) return;
-            
-            chartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr'],
-                    datasets: [{
-                        label: 'Cycle Length (Days)',
-                        data: [28, 29, 27, 28],
-                        borderColor: '#C7A6DC',
-                        backgroundColor: 'rgba(199, 166, 220, 0.2)',
-                        tension: 0.4,
-                        fill: true,
-                        borderWidth: 2,
-                        pointBackgroundColor: '#49354F'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { beginAtZero: false, min: 20, max: 35, grid: { display: false } },
-                        x: { grid: { display: false } }
-                    }
+        // ========== DASHBOARD UPDATE ==========
+        function updateDashboard() {
+            const profile = JSON.parse(localStorage.getItem(KEYS.PROFILE)) || {};
+            const name = profile.name || 'Friend';
+            const greeting = document.getElementById('greeting-text');
+            if (greeting) greeting.innerText = `Hello, ${name} 🌷`;
+
+            const periods = getPeriods().sort((a,b) => new Date(b.start) - new Date(a.start));
+            const dashDay = document.getElementById('dash-cycle-day');
+            const dashPhase = document.getElementById('dash-phase');
+            const dashNext = document.getElementById('dash-next-period');
+
+            if (periods.length > 0) {
+                const lastStart = new Date(periods[0].start);
+                const today = new Date();
+                const diffDays = Math.floor((today - lastStart) / (1000*60*60*24)) + 1;
+                if (dashDay) dashDay.innerText = diffDays;
+                if (dashPhase) dashPhase.innerText = diffDays <= 5 ? 'Menstrual Phase' : (diffDays <= 13 ? 'Follicular Phase' : 'Luteal Phase');
+                const next = predictNextPeriod();
+                if (next) {
+                    const daysLeft = Math.ceil((next - today) / (1000*60*60*24));
+                    if (dashNext) dashNext.innerText = daysLeft > 0 ? `Next period in ~${daysLeft} days` : 'Period may be due';
                 }
-            });
+            } else {
+                if (dashDay) dashDay.innerText = '–';
+                if (dashPhase) dashPhase.innerText = 'Log your period to see phase';
+                if (dashNext) dashNext.innerText = 'No data yet';
+            }
+
+            const moods = getMoods();
+            if (moods.length > 0) {
+                const latest = moods[moods.length-1];
+                const buddy = document.getElementById('dashboard-buddy');
+                const label = document.getElementById('dash-mood-label');
+                if (buddy) buddy.innerText = latest.emoji;
+                if (label) label.innerText = `Feeling ${latest.text}`;
+            }
+
+            updateSelfCareUI();
         }
 
-        // --- PWA SERVICE WORKER REGISTRATION ---
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                // In a real deployment, you would point this to your actual sw.js file
-                // navigator.serviceWorker.register('/sw.js');
-                console.log('Service Worker ready for integration');
-            });
+        // ========== CHARTS ==========
+        function renderCharts() {
+            const periods = getPeriods().sort((a,b) => new Date(a.start) - new Date(b.start));
+            if (periods.length < 2) {
+                document.getElementById('chart-container').style.display = 'none';
+                document.getElementById('chart-empty-state').style.display = 'block';
+            } else {
+                document.getElementById('chart-container').style.display = 'block';
+                document.getElementById('chart-empty-state').style.display = 'none';
+                const labels = [], data = [];
+                for (let i = 1; i < periods.length; i++) {
+                    const diff = (new Date(periods[i].start) - new Date(periods[i-1].start)) / (1000*60*60*24);
+                    labels.push(`Cycle ${i}`);
+                    data.push(diff);
+                }
+                const ctx = document.getElementById('cycleChart');
+                if (chartInstance) chartInstance.destroy();
+                chartInstance = new Chart(ctx, {
+                    type: 'line',
+                    data: { labels, datasets: [{ label: 'Cycle Length (Days)', data, borderColor: '#C7A6DC', backgroundColor: 'rgba(199,166,220,0.2)', tension: 0.4, fill: true, borderWidth: 2, pointBackgroundColor: '#49354F' }] },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: false, min: 15, max: 45, grid: { display: false } }, x: { grid: { display: false } } } }
+                });
+            }
+
+            const moods = getMoods();
+            if (moods.length === 0) {
+                document.getElementById('mood-chart-container').style.display = 'none';
+                document.getElementById('mood-chart-empty').style.display = 'block';
+            } else {
+                document.getElementById('mood-chart-container').style.display = 'block';
+                document.getElementById('mood-chart-empty').style.display = 'none';
+                const counts = {};
+                moods.forEach(m => { counts[m.text] = (counts[m.text] || 0) + 1; });
+                const ctx2 = document.getElementById('moodChart');
+                if (moodChartInstance) moodChartInstance.destroy();
+                moodChartInstance = new Chart(ctx2, {
+                    type: 'doughnut',
+                    data: { labels: Object.keys(counts), datasets: [{ data: Object.values(counts), backgroundColor: ['#C7A6DC','#F3CADB','#DCE8DC','#F6D6C1','#FFF9F4','#49354F'] }] },
+                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+                });
+            }
         }
 
+        // ========== SETTINGS ==========
+        function updateName() {
+            const newName = document.getElementById('settings-name').value.trim();
+            if (!newName) { alert('Please enter a name.'); return; }
+            const profile = JSON.parse(localStorage.getItem(KEYS.PROFILE)) || {};
+            profile.name = newName;
+            localStorage.setItem(KEYS.PROFILE, JSON.stringify(profile));
+            updateDashboard();
+            alert('Name updated!');
+        }
+
+        function exportData() {
+            const data = {};
+            Object.values(KEYS).forEach(k => { data[k] = localStorage.getItem(k); });
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = 'herspace-data.json'; a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function clearAllData() {
+            if (!confirm('This will delete ALL your data. Are you sure?')) return;
+            Object.values(KEYS).forEach(k => localStorage.removeItem(k));
+            location.reload();
+        }
+
+        // ========== INIT ==========
+        function initApp() {
+            const profile = JSON.parse(localStorage.getItem(KEYS.PROFILE));
+            if (!profile) {
+                document.getElementById('onboarding-overlay').classList.remove('hidden');
+                return;
+            }
+            document.getElementById('onboarding-overlay').classList.add('hidden');
+            updateDashboard();
+            renderCalendar();
+            renderPeriodHistory();
+            renderMoodHistory();
+            renderJournalEntries();
+            updateSelfCareUI();
+            lucide.createIcons();
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initCanvas();
+            const profile = JSON.parse(localStorage.getItem(KEYS.PROFILE));
+            if (profile) {
+                document.getElementById('onboarding-overlay').classList.add('hidden');
+                document.getElementById('settings-name').value = profile.name || '';
+                initApp();
+            } else {
+                document.getElementById('onboarding-overlay').classList.remove('hidden');
+            }
+            // Set default journal date
+            const jd = document.getElementById('journal-date');
+            if (jd) jd.value = new Date().toISOString().slice(0,10);
+            // Symptom chip toggle
+            document.querySelectorAll('.symptom-chip').forEach(chip => {
+                chip.addEventListener('click', function() {
+                    this.classList.toggle('selected');
+                    this.style.background = this.classList.contains('selected') ? 'var(--lavender)' : 'white';
+                    this.style.color = this.classList.contains('selected') ? 'white' : 'inherit';
+                    this.dataset.symptom = this.innerText.trim();
+                });
+            });
+            lucide.createIcons();
+        });
     </script>
 </body>
 </html>
