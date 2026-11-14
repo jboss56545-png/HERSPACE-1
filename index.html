@@ -373,7 +373,9 @@
         // --- SUPABASE CONFIGURATION ---
         const SUPABASE_URL = 'https://fxhyisviicvimfqioivf.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_zMlGyD49nOKVuSqADfpdJA_E6X6LBdu';
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        // FIX: Variable name changed to supabaseClient to avoid conflict
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         // --- STATE MANAGEMENT ---
         let currentUser = null;
@@ -390,33 +392,38 @@
 
         // --- SILENT AUTHENTICATION LOGIC ---
         async function initAuth() {
-            const { data: { session } } = await supabase.auth.getSession();
-            
-            if (!session) {
-                // If no session, create an anonymous user automatically
-                const { data, error } = await supabase.auth.signInAnonymously();
-                if (error) {
-                    alert("Database connection failed. Please ensure Anonymous Sign-ins are enabled in Supabase.");
-                    console.error(error);
-                    return;
+            try {
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                
+                if (!session) {
+                    // If no session, create an anonymous user automatically
+                    const { data, error } = await supabaseClient.auth.signInAnonymously();
+                    if (error) {
+                        console.error(error);
+                        alert("Database connection failed. Please ensure Anonymous Sign-ins are enabled in Supabase.");
+                        return;
+                    }
+                    currentUser = data.user;
+                } else {
+                    currentUser = session.user;
                 }
-                currentUser = data.user;
-            } else {
-                currentUser = session.user;
-            }
 
-            // Now check if this user has a profile
-            const { data: profile } = await supabase.from('profiles').select('*').eq('id', currentUser.id).single();
-            
-            document.getElementById('loading-overlay').classList.add('hidden');
+                // Now check if this user has a profile
+                const { data: profile, error: profileError } = await supabaseClient.from('profiles').select('*').eq('id', currentUser.id).single();
+                
+                document.getElementById('loading-overlay').classList.add('hidden');
 
-            if (!profile) {
-                // New user -> Show onboarding
-                document.getElementById('onboarding-overlay').classList.remove('hidden');
-            } else {
-                userProfile = profile;
-                document.getElementById('onboarding-overlay').classList.add('hidden');
-                await loadAppData();
+                if (!profile) {
+                    // New user -> Show onboarding
+                    document.getElementById('onboarding-overlay').classList.remove('hidden');
+                } else {
+                    userProfile = profile;
+                    document.getElementById('onboarding-overlay').classList.add('hidden');
+                    await loadAppData();
+                }
+            } catch (err) {
+                console.error("Auth Error:", err);
+                alert("Something went wrong while connecting to the database. Please check the console.");
             }
         }
 
@@ -425,7 +432,7 @@
             const cycleInput = document.getElementById('onboarding-cycle').value;
             if (!name) { alert('Please enter a name.'); return; }
 
-            const { error } = await supabase.from('profiles').upsert({
+            const { error } = await supabaseClient.from('profiles').upsert({
                 id: currentUser.id,
                 display_name: name,
                 usual_cycle_length: cycleInput ? parseInt(cycleInput) : null
@@ -440,7 +447,7 @@
 
         function resetSession() {
             if(!confirm("This will clear your current anonymous session. You will start as a new user. Continue?")) return;
-            supabase.auth.signOut().then(() => location.reload());
+            supabaseClient.auth.signOut().then(() => location.reload());
         }
 
         // --- DATA FETCHING ---
@@ -450,9 +457,9 @@
             
             // Fetch all data in parallel
             const [pRes, mRes, jRes] = await Promise.all([
-                supabase.from('periods').select('*').order('start_date', { ascending: false }),
-                supabase.from('moods').select('*').order('created_at', { ascending: false }),
-                supabase.from('journal').select('*').order('entry_date', { ascending: false })
+                supabaseClient.from('periods').select('*').order('start_date', { ascending: false }),
+                supabaseClient.from('moods').select('*').order('created_at', { ascending: false }),
+                supabaseClient.from('journal').select('*').order('entry_date', { ascending: false })
             ]);
 
             periodsData = pRes.data || [];
@@ -527,7 +534,7 @@
             
             if (!start || !end) { alert('Please select start and end dates.'); return; }
             
-            const { error } = await supabase.from('periods').insert([{ 
+            const { error } = await supabaseClient.from('periods').insert([{ 
                 start_date: start, end_date: end, flow: flow, symptoms: [] 
             }]);
             
@@ -539,7 +546,7 @@
 
         async function deletePeriod(id) {
             if (!confirm('Delete this period entry?')) return;
-            const { error } = await supabase.from('periods').delete().eq('id', id);
+            const { error } = await supabaseClient.from('periods').delete().eq('id', id);
             if (error) { alert('Error deleting.'); return; }
             await loadAppData();
         }
@@ -608,7 +615,7 @@
 
         // --- MOOD ---
         async function setMood(emoji, text) {
-            const { error } = await supabase.from('moods').insert([{ emoji, mood_text: text }]);
+            const { error } = await supabaseClient.from('moods').insert([{ emoji, mood_text: text }]);
             if (error) { alert('Error saving mood.'); return; }
             
             document.getElementById('main-mood-buddy').innerText = emoji;
@@ -637,7 +644,7 @@
             
             if (!text) { alert('Please write something.'); return; }
             
-            const { error } = await supabase.from('journal').insert([{ entry_date: date, content: text }]);
+            const { error } = await supabaseClient.from('journal').insert([{ entry_date: date, content: text }]);
             if (error) { alert('Error saving.'); return; }
             
             document.getElementById('journal-input').value = '';
@@ -646,7 +653,7 @@
 
         async function deleteJournalEntry(id) {
             if (!confirm('Delete this entry?')) return;
-            await supabase.from('journal').delete().eq('id', id);
+            await supabaseClient.from('journal').delete().eq('id', id);
             await loadAppData();
         }
 
