@@ -96,11 +96,11 @@
         .mood-btn { padding: 16px; border-radius: 20px; background: var(--white); border: none; box-shadow: var(--shadow); font-size: 24px; cursor: pointer; transition: transform 0.2s; }
         .mood-btn:hover { transform: translateY(-4px); }
         
-        /* Canvas */
-        #paint-canvas { background: white; border-radius: 16px; box-shadow: var(--shadow); width: 100%; height: 300px; touch-action: none; }
-        .paint-tools { display: flex; gap: 12px; margin-top: 16px; justify-content: center; flex-wrap: wrap; align-items: center; }
-        .color-swatch { width: 32px; height: 32px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; }
-        .color-swatch.active { border-color: var(--plum); transform: scale(1.1); }
+        /* Canvas / Creative Studio */
+        #paint-canvas { background: white; border-radius: 16px; box-shadow: var(--shadow); width: 100%; height: 350px; touch-action: none; cursor: crosshair; }
+        .paint-tools { display: flex; gap: 10px; margin-top: 16px; justify-content: center; flex-wrap: wrap; align-items: center; }
+        .color-swatch { width: 32px; height: 32px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .color-swatch.active { border-color: var(--plum); transform: scale(1.15); }
         
         /* Chat */
         .chat-container { display: flex; flex-direction: column; height: calc(100vh - 200px); }
@@ -282,19 +282,44 @@
                 </div>
             </section>
 
-            <!-- CREATIVE STUDIO -->
+            <!-- CREATIVE STUDIO (UPDATED) -->
             <section id="view-creative" class="view-section">
                 <div class="header-text">Creative Studio</div>
                 <div class="sub-text">Express yourself with colors.</div>
-                <div class="glass-card" style="padding: 12px;">
+                
+                <div class="glass-card" style="padding: 16px;">
+                    <!-- Template Selector -->
+                    <div style="display: flex; gap: 8px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 4px;">
+                        <button class="btn btn-outline" style="width: auto; padding: 8px 12px; font-size: 12px;" onclick="loadTemplate('blank')">Blank Page</button>
+                        <button class="btn btn-outline" style="width: auto; padding: 8px 12px; font-size: 12px;" onclick="loadTemplate('flower')">🌻 Flower</button>
+                        <button class="btn btn-outline" style="width: auto; padding: 8px 12px; font-size: 12px;" onclick="loadTemplate('heart')">❤️ Heart</button>
+                    </div>
+
                     <canvas id="paint-canvas"></canvas>
+                    
                     <div class="paint-tools">
                         <div class="color-swatch active" style="background: #49354F;" onclick="setColor('#49354F', this)"></div>
                         <div class="color-swatch" style="background: #C7A6DC;" onclick="setColor('#C7A6DC', this)"></div>
                         <div class="color-swatch" style="background: #F3CADB;" onclick="setColor('#F3CADB', this)"></div>
                         <div class="color-swatch" style="background: #DCE8DC;" onclick="setColor('#DCE8DC', this)"></div>
-                        <button onclick="downloadDrawing()" style="border:none; background: var(--peach); padding: 8px 12px; border-radius: 8px; cursor: pointer;">Download</button>
-                        <button onclick="clearCanvas()" style="border:none; background: #ffebeb; color: #d66; padding: 8px 12px; border-radius: 8px; cursor: pointer;">Clear</button>
+                        <div class="color-swatch" style="background: #FFD700;" onclick="setColor('#FFD700', this)"></div>
+                        <div class="color-swatch" style="background: #87CEEB;" onclick="setColor('#87CEEB', this)"></div>
+                    </div>
+                    
+                    <div class="flex-row mt-16" style="justify-content: center; flex-wrap: wrap;">
+                        <div style="display: flex; align-items: center; gap: 8px; background: white; padding: 6px 12px; border-radius: 12px; box-shadow: var(--shadow);">
+                            <i data-lucide="paintbrush" style="width: 16px;"></i>
+                            <input type="range" id="brush-size" min="2" max="30" value="5" oninput="updateBrushSize(this.value)" style="width: 80px;">
+                        </div>
+                        
+                        <button id="eraser-btn" onclick="toggleEraser()" style="border:none; background: white; box-shadow: var(--shadow); padding: 8px 16px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+                            <i data-lucide="eraser" style="width: 16px;"></i> Eraser
+                        </button>
+                    </div>
+
+                    <div class="flex-row mt-16">
+                        <button onclick="downloadDrawing()" class="btn" style="background: var(--sage); color: var(--plum);">Download</button>
+                        <button onclick="clearCanvasConfirm()" class="btn" style="background: #ffebeb; color: #d66;">Clear</button>
                     </div>
                 </div>
             </section>
@@ -373,8 +398,6 @@
         // --- SUPABASE CONFIGURATION ---
         const SUPABASE_URL = 'https://fxhyisviicvimfqioivf.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_zMlGyD49nOKVuSqADfpdJA_E6X6LBdu';
-        
-        // FIX: Variable name changed to supabaseClient to avoid conflict
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         // --- STATE MANAGEMENT ---
@@ -386,8 +409,6 @@
         
         let currentMonth = new Date().getMonth();
         let currentYear = new Date().getFullYear();
-        let currentColor = '#49354F';
-        let isDrawing = false;
         let chartInstance = null;
 
         // --- SILENT AUTHENTICATION LOGIC ---
@@ -396,7 +417,6 @@
                 const { data: { session } } = await supabaseClient.auth.getSession();
                 
                 if (!session) {
-                    // If no session, create an anonymous user automatically
                     const { data, error } = await supabaseClient.auth.signInAnonymously();
                     if (error) {
                         console.error(error);
@@ -408,13 +428,11 @@
                     currentUser = session.user;
                 }
 
-                // Now check if this user has a profile
                 const { data: profile, error: profileError } = await supabaseClient.from('profiles').select('*').eq('id', currentUser.id).single();
                 
                 document.getElementById('loading-overlay').classList.add('hidden');
 
                 if (!profile) {
-                    // New user -> Show onboarding
                     document.getElementById('onboarding-overlay').classList.remove('hidden');
                 } else {
                     userProfile = profile;
@@ -423,7 +441,7 @@
                 }
             } catch (err) {
                 console.error("Auth Error:", err);
-                alert("Something went wrong while connecting to the database. Please check the console.");
+                alert("Something went wrong while connecting to the database.");
             }
         }
 
@@ -455,7 +473,6 @@
             document.getElementById('main-app').classList.remove('hidden');
             document.getElementById('mobile-nav').classList.remove('hidden');
             
-            // Fetch all data in parallel
             const [pRes, mRes, jRes] = await Promise.all([
                 supabaseClient.from('periods').select('*').order('start_date', { ascending: false }),
                 supabaseClient.from('moods').select('*').order('created_at', { ascending: false }),
@@ -507,10 +524,8 @@
         // --- CYCLE ENGINE ---
         function calculateAverageCycleLength() {
             if (periodsData.length < 2) return userProfile?.usual_cycle_length || 28;
-            
             const recent = periodsData.slice(0, 6).reverse(); 
             let total = 0, count = 0;
-            
             for (let i = 1; i < recent.length; i++) {
                 const diff = (new Date(recent[i].start_date) - new Date(recent[i-1].start_date)) / (1000*60*60*24);
                 if (diff > 15 && diff < 60) { total += diff; count++; }
@@ -531,23 +546,16 @@
             const start = document.getElementById('period-start').value;
             const end = document.getElementById('period-end').value;
             const flow = document.getElementById('period-flow').value;
-            
             if (!start || !end) { alert('Please select start and end dates.'); return; }
-            
-            const { error } = await supabaseClient.from('periods').insert([{ 
-                start_date: start, end_date: end, flow: flow, symptoms: [] 
-            }]);
-            
+            const { error } = await supabaseClient.from('periods').insert([{ start_date: start, end_date: end, flow: flow, symptoms: [] }]);
             if (error) { alert('Error saving: ' + error.message); return; }
-            
             alert('Period saved!');
             await loadAppData(); 
         }
 
         async function deletePeriod(id) {
             if (!confirm('Delete this period entry?')) return;
-            const { error } = await supabaseClient.from('periods').delete().eq('id', id);
-            if (error) { alert('Error deleting.'); return; }
+            await supabaseClient.from('periods').delete().eq('id', id);
             await loadAppData();
         }
 
@@ -576,32 +584,23 @@
             const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
             label.innerText = `${months[currentMonth]} ${currentYear}`;
             grid.innerHTML = '';
-            
             ['S','M','T','W','T','F','S'].forEach(d => grid.innerHTML += `<div style="font-size:10px; font-weight:700; color:#a0a0a0; margin-bottom:8px;">${d}</div>`);
-            
             const firstDay = new Date(currentYear, currentMonth, 1).getDay();
             const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-            
             for (let i = 0; i < firstDay; i++) grid.innerHTML += '<div></div>';
-            
             const today = new Date();
             const isCurrentMonth = today.getMonth() === currentMonth && today.getFullYear() === currentYear;
             const predicted = predictNextPeriod();
-            
             for (let d = 1; d <= daysInMonth; d++) {
                 const dateStr = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
                 let cls = 'cal-day';
-                
                 if (periodsData.some(p => dateStr >= p.start_date && dateStr <= p.end_date)) cls += ' period';
-                
                 if (predicted) {
                     const predStart = new Date(predicted);
                     const predEnd = new Date(predicted); predEnd.setDate(predEnd.getDate() + 4);
                     if (dateStr >= predStart.toISOString().slice(0,10) && dateStr <= predEnd.toISOString().slice(0,10) && !cls.includes('period')) cls += ' predicted';
                 }
-                
                 if (isCurrentMonth && d === today.getDate()) cls += ' today';
-                
                 grid.innerHTML += `<div class="${cls}">${d}</div>`;
             }
         }
@@ -617,7 +616,6 @@
         async function setMood(emoji, text) {
             const { error } = await supabaseClient.from('moods').insert([{ emoji, mood_text: text }]);
             if (error) { alert('Error saving mood.'); return; }
-            
             document.getElementById('main-mood-buddy').innerText = emoji;
             document.getElementById('mood-status-text').innerText = `Feeling ${text}`;
             await loadAppData();
@@ -641,12 +639,9 @@
         async function saveJournalEntry() {
             const text = document.getElementById('journal-input').value.trim();
             const date = document.getElementById('journal-date').value || new Date().toISOString().slice(0,10);
-            
             if (!text) { alert('Please write something.'); return; }
-            
             const { error } = await supabaseClient.from('journal').insert([{ entry_date: date, content: text }]);
             if (error) { alert('Error saving.'); return; }
-            
             document.getElementById('journal-input').value = '';
             await loadAppData();
         }
@@ -690,34 +685,148 @@
             });
             
             if (viewId === 'insights') renderCharts();
+            if (viewId === 'creative') initCanvas(); // Re-init canvas size on view load
         }
 
-        // --- CANVAS & CHAT ---
+        // --- FIXED CANVAS & DRAWING LOGIC ---
         const canvas = document.getElementById('paint-canvas');
         let ctx;
+        let isDrawing = false;
+        let currentColor = '#49354F';
+        let currentBrushSize = 5;
+        let isEraser = false;
+
         function initCanvas() {
             if (!canvas) return;
             ctx = canvas.getContext('2d');
-            const rect = canvas.getBoundingClientRect();
-            canvas.width = rect.width; canvas.height = rect.height;
-            ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.lineWidth = 4;
             
-            const start = (e) => { isDrawing = true; ctx.beginPath(); ctx.moveTo(e.offsetX, e.offsetY); };
-            const draw = (e) => { if(!isDrawing) return; ctx.strokeStyle = currentColor; ctx.lineTo(e.offsetX, e.offsetY); ctx.stroke(); };
-            const stop = () => { isDrawing = false; ctx.closePath(); };
-
-            canvas.addEventListener('mousedown', start);
+            // Handle high DPI screens and responsiveness
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+            
+            ctx.lineCap = 'round'; 
+            ctx.lineJoin = 'round'; 
+            
+            // Mouse Events
+            canvas.addEventListener('mousedown', startDrawing);
             canvas.addEventListener('mousemove', draw);
-            canvas.addEventListener('mouseup', stop);
-            canvas.addEventListener('touchstart', (e) => { e.preventDefault(); start(e.touches[0]); }, {passive:false});
-            canvas.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e.touches[0]); }, {passive:false});
-            canvas.addEventListener('touchend', stop);
-        }
-        
-        function setColor(c, el) { currentColor = c; document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active')); el.classList.add('active'); }
-        function clearCanvas() { if(confirm('Clear canvas?')) ctx.clearRect(0,0,canvas.width,canvas.height); }
-        function downloadDrawing() { const a = document.createElement('a'); a.download = 'herspace.png'; a.href = canvas.toDataURL(); a.click(); }
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
 
+            // Touch Events (Mobile Fix)
+            canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startDrawing(e.touches[0]); }, {passive: false});
+            canvas.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e.touches[0]); }, {passive: false});
+            canvas.addEventListener('touchend', stopDrawing);
+            canvas.addEventListener('touchcancel', stopDrawing);
+        }
+
+        // Helper to get correct coordinates
+        function getCoordinates(e) {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: (e.clientX || e.pageX) - rect.left,
+                y: (e.clientY || e.pageY) - rect.top
+            };
+        }
+
+        function startDrawing(e) {
+            isDrawing = true;
+            const pos = getCoordinates(e);
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            const pos = getCoordinates(e);
+            ctx.strokeStyle = isEraser ? '#FFFFFF' : currentColor;
+            ctx.lineWidth = currentBrushSize;
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+            ctx.closePath();
+        }
+
+        function setColor(color, el) {
+            currentColor = color;
+            isEraser = false;
+            document.getElementById('eraser-btn').style.background = 'white';
+            document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        function updateBrushSize(val) {
+            currentBrushSize = parseInt(val);
+        }
+
+        function toggleEraser() {
+            isEraser = !isEraser;
+            const btn = document.getElementById('eraser-btn');
+            btn.style.background = isEraser ? 'var(--lavender)' : 'white';
+        }
+
+        function clearCanvasConfirm() {
+            if(confirm('Clear the canvas? This cannot be undone.')) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        function downloadDrawing() {
+            const link = document.createElement('a');
+            link.download = `HERSPACE-Art-${Date.now()}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        // Draw Basic Templates
+        function loadTemplate(type) {
+            if(!confirm('This will clear your current drawing. Continue?')) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = '#49354F'; // Outline color
+            ctx.lineWidth = 3;
+
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+
+            if(type === 'flower') {
+                // Draw a simple flower
+                ctx.beginPath();
+                for (let i = 0; i < 6; i++) {
+                    let angle = (i * Math.PI) / 3;
+                    let x = centerX + Math.cos(angle) * 60;
+                    let y = centerY + Math.sin(angle) * 60;
+                    ctx.moveTo(centerX, centerY);
+                    ctx.arc(x, y, 50, 0, Math.PI * 2);
+                }
+                ctx.stroke();
+                // Center
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, 30, 0, Math.PI * 2);
+                ctx.stroke();
+            } 
+            else if (type === 'heart') {
+                // Draw a heart path
+                ctx.beginPath();
+                let topCurveHeight = 40;
+                ctx.moveTo(centerX, centerY + topCurveHeight);
+                // Top left curve
+                ctx.bezierCurveTo(centerX, centerY, centerX - 80, centerY, centerX - 80, centerY + topCurveHeight);
+                // Bottom left curve
+                ctx.bezierCurveTo(centerX - 80, centerY + (topCurveHeight + 70), centerX, centerY + (topCurveHeight + 70) + 50, centerX, centerY + 170);
+                // Bottom right curve
+                ctx.bezierCurveTo(centerX, centerY + (topCurveHeight + 70) + 50, centerX + 80, centerY + (topCurveHeight + 70), centerX + 80, centerY + topCurveHeight);
+                // Top right curve
+                ctx.bezierCurveTo(centerX + 80, centerY, centerX, centerY, centerX, centerY + topCurveHeight);
+                ctx.closePath();
+                ctx.stroke();
+            }
+        }
+
+        // --- AI CHAT ---
         function handleChatEnter(e) { if(e.key === 'Enter') sendChatMessage(); }
         function sendChatMessage() {
             const input = document.getElementById('chat-input');
@@ -762,13 +871,13 @@
 
         // --- INITIALIZATION ---
         window.addEventListener('DOMContentLoaded', () => {
-            initCanvas();
+            // Canvas needs to be initialized after DOM is ready
+            setTimeout(initCanvas, 500); 
+            
             const jd = document.getElementById('journal-date');
             if(jd) jd.value = new Date().toISOString().slice(0,10);
             
-            // Auto-login securely
             initAuth();
-            
             lucide.createIcons();
         });
     </script>
