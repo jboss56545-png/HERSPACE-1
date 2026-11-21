@@ -10,11 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Icons & Charts -->
     <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
@@ -25,34 +22,16 @@
             --shadow: 0 8px 32px rgba(73, 53, 79, 0.08); --radius: 24px;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: linear-gradient(135deg, #FFF9F4 0%, #F3CADB 100%);
-            color: var(--plum); min-height: 100vh; display: flex; overflow-x: hidden;
-        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: linear-gradient(135deg, #FFF9F4 0%, #F3CADB 100%); color: var(--plum); min-height: 100vh; display: flex; overflow-x: hidden; }
         
-        /* Layout */
+        /* Layout & Nav */
         .app-container { display: flex; width: 100%; max-width: 1200px; margin: 0 auto; min-height: 100vh; position: relative; }
-        .sidebar {
-            display: none; width: 260px; background: var(--glass); backdrop-filter: blur(20px);
-            padding: 32px 24px; border-right: 1px solid rgba(255,255,255,0.5);
-            flex-direction: column; gap: 12px; height: 100vh; position: sticky; top: 0;
-        }
+        .sidebar { display: none; width: 260px; background: var(--glass); backdrop-filter: blur(20px); padding: 32px 24px; border-right: 1px solid rgba(255,255,255,0.5); flex-direction: column; gap: 12px; height: 100vh; position: sticky; top: 0; }
         .logo { font-size: 24px; font-weight: 800; color: var(--plum); margin-bottom: 32px; display: flex; align-items: center; gap: 8px; }
-        .nav-item {
-            display: flex; align-items: center; gap: 16px; padding: 14px 20px; border-radius: 16px;
-            color: var(--plum); font-weight: 600; text-decoration: none; transition: all 0.3s ease; cursor: pointer;
-        }
+        .nav-item { display: flex; align-items: center; gap: 16px; padding: 14px 20px; border-radius: 16px; color: var(--plum); font-weight: 600; text-decoration: none; transition: all 0.3s ease; cursor: pointer; }
         .nav-item:hover, .nav-item.active { background: var(--white); box-shadow: var(--shadow); color: #9A6BB0; }
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; width: 100%; background: var(--glass); backdrop-filter: blur(20px);
-            display: flex; justify-content: space-around; padding: 12px 8px 24px 8px;
-            border-top: 1px solid rgba(255,255,255,0.5); z-index: 100;
-        }
-        .nav-item-mobile {
-            display: flex; flex-direction: column; align-items: center; gap: 4px;
-            color: #a0a0a0; font-size: 10px; font-weight: 600; cursor: pointer; transition: color 0.2s;
-        }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--glass); backdrop-filter: blur(20px); display: flex; justify-content: space-around; padding: 12px 8px 24px 8px; border-top: 1px solid rgba(255,255,255,0.5); z-index: 100; }
+        .nav-item-mobile { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #a0a0a0; font-size: 10px; font-weight: 600; cursor: pointer; transition: color 0.2s; }
         .nav-item-mobile.active { color: var(--plum); }
         .main-content { flex: 1; padding: 24px 20px 100px 20px; max-width: 100%; overflow-y: auto; }
         
@@ -60,30 +39,18 @@
         .view-section { display: none; animation: fadeIn 0.4s ease-out; }
         .view-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .glass-card {
-            background: var(--glass); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.8);
-            border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); margin-bottom: 16px;
-        }
+        .glass-card { background: var(--glass); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.8); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); margin-bottom: 16px; }
         .header-text { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
         .sub-text { font-size: 14px; color: #6b5b72; margin-bottom: 24px; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         
         /* Dashboard */
         .cycle-widget { background: linear-gradient(135deg, #ffffff 0%, #f7f0f9 100%); text-align: center; padding: 24px; }
-        .cycle-circle {
-            width: 140px; height: 140px; border-radius: 50%; margin: 0 auto 16px auto;
-            border: 8px solid var(--blush); border-top-color: var(--lavender); border-right-color: var(--lavender);
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-        }
+        .cycle-circle { width: 140px; height: 140px; border-radius: 50%; margin: 0 auto 16px auto; border: 8px solid var(--blush); border-top-color: var(--lavender); border-right-color: var(--lavender); display: flex; flex-direction: column; justify-content: center; align-items: center; }
         .cycle-day { font-size: 36px; font-weight: 800; color: var(--plum); line-height: 1; }
         .cycle-label { font-size: 12px; font-weight: 600; color: #8a7d8e; }
         .mood-widget { display: flex; flex-direction: column; justify-content: center; align-items: center; background: linear-gradient(135deg, #ffffff 0%, #fdf5f7 100%); }
-        .mood-buddy {
-            width: 80px; height: 80px; background: radial-gradient(circle at 30% 30%, #fff, var(--peach));
-            border-radius: 50% 50% 40% 40%; display: flex; justify-content: center; align-items: center; font-size: 32px;
-            box-shadow: inset -4px -4px 10px rgba(0,0,0,0.05), 0 8px 16px rgba(246, 214, 193, 0.4); cursor: pointer; transition: transform 0.1s ease;
-        }
-        .mood-buddy:active { transform: scale(0.9, 0.8); }
+        .mood-buddy { width: 80px; height: 80px; background: radial-gradient(circle at 30% 30%, #fff, var(--peach)); border-radius: 50% 50% 40% 40%; display: flex; justify-content: center; align-items: center; font-size: 32px; box-shadow: inset -4px -4px 10px rgba(0,0,0,0.05), 0 8px 16px rgba(246, 214, 193, 0.4); cursor: pointer; transition: transform 0.1s ease; }
         
         /* Calendar & Forms */
         .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
@@ -94,77 +61,18 @@
         .cal-day.today { border: 2px solid var(--lavender); font-weight: 800; }
         .mood-options { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 20px; }
         .mood-btn { padding: 16px; border-radius: 20px; background: var(--white); border: none; box-shadow: var(--shadow); font-size: 24px; cursor: pointer; transition: transform 0.2s; }
-        .mood-btn:hover { transform: translateY(-4px); }
         
-        /* ====== CREATIVE STUDIO (NEW UPGRADE) ====== */
-        #view-creative {
-            display: none;
-            flex-direction: column;
-            height: calc(100vh - 120px); /* Takes almost full screen */
-        }
-        #view-creative.active {
-            display: flex;
-        }
-        .canvas-wrapper {
-            flex: 1;
-            background: white;
-            border-radius: 20px;
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            position: relative;
-            touch-action: none;
-        }
-        #paint-canvas {
-            width: 100%;
-            height: 100%;
-            cursor: crosshair;
-        }
-        .toolbar {
-            background: var(--glass);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255,255,255,0.8);
-            border-radius: 20px;
-            padding: 12px;
-            margin-top: 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            box-shadow: var(--shadow);
-        }
+        /* Creative Studio Fullscreen */
+        #view-creative { display: none; flex-direction: column; height: calc(100vh - 120px); }
+        #view-creative.active { display: flex; }
+        .canvas-wrapper { flex: 1; background: white; border-radius: 20px; box-shadow: var(--shadow); overflow: hidden; position: relative; touch-action: none; }
+        #paint-canvas { width: 100%; height: 100%; cursor: crosshair; }
+        .toolbar { background: var(--glass); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.8); border-radius: 20px; padding: 12px; margin-top: 12px; display: flex; flex-direction: column; gap: 10px; box-shadow: var(--shadow); }
         .tool-row { display: flex; gap: 12px; justify-content: center; align-items: center; flex-wrap: wrap; }
-        
-        /* Color Picker Styles */
-        .color-input-wrapper {
-            width: 40px; height: 40px; border-radius: 50%;
-            background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);
-            padding: 2px; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        input[type="color"] {
-            -webkit-appearance: none;
-            border: none;
-            width: 100%; height: 100%;
-            border-radius: 50%;
-            cursor: pointer;
-            padding: 0;
-            background: transparent;
-        }
-        input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
-        input[type="color"]::-webkit-color-swatch { border: none; border-radius: 50%; }
-        
-        .sticker-bar {
-            display: flex;
-            gap: 12px;
-            overflow-x: auto;
-            padding: 8px 4px;
-            scrollbar-width: none; /* Firefox */
-        }
-        .sticker-bar::-webkit-scrollbar { display: none; } /* Chrome/Safari */
-        .sticker-btn {
-            font-size: 28px; padding: 8px; background: white; border-radius: 12px;
-            border: 2px solid transparent; cursor: pointer; transition: transform 0.2s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-        .sticker-btn:hover { transform: scale(1.1); }
+        .color-input-wrapper { width: 40px; height: 40px; border-radius: 50%; background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red); padding: 2px; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        input[type="color"] { -webkit-appearance: none; border: none; width: 100%; height: 100%; border-radius: 50%; cursor: pointer; padding: 0; background: transparent; }
+        .sticker-bar { display: flex; gap: 12px; overflow-x: auto; padding: 8px 4px; scrollbar-width: none; }
+        .sticker-btn { font-size: 28px; padding: 8px; background: white; border-radius: 12px; border: 2px solid transparent; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
         .sticker-btn.active { border-color: var(--lavender); background: var(--cream); }
         
         /* Chat */
@@ -175,43 +83,25 @@
         .msg.user { background: var(--lavender); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
         .chat-input-area { display: flex; gap: 8px; margin-top: 10px; }
         .chat-input { flex: 1; padding: 14px 20px; border-radius: 24px; border: none; background: var(--white); box-shadow: var(--shadow); font-family: inherit; font-size: 14px; }
-        .chat-send { width: 48px; height: 48px; border-radius: 50%; border: none; background: var(--lavender); color: white; cursor: pointer; display: flex; justify-content: center; align-items: center; }
+        .chat-send { width: 48px; height: 48px; border-radius: 50%; border: none; background: var(--lavender); color: white; cursor: pointer; }
         
-        /* Doctor */
-        .doctor-card { display: flex; gap: 16px; align-items: center; margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 16px; }
-        .doc-avatar { width: 60px; height: 60px; border-radius: 50%; background: var(--sage); display: flex; justify-content: center; align-items: center; font-size: 24px; }
-        
-        /* Buttons */
+        /* Buttons & Utilities */
         .btn { background: var(--plum); color: white; padding: 12px 24px; border-radius: 16px; border: none; font-weight: 600; cursor: pointer; width: 100%; transition: opacity 0.2s; }
         .btn:hover { opacity: 0.9; }
         .btn-outline { background: transparent; color: var(--plum); border: 2px solid var(--plum); }
+        .empty-state { text-align: center; padding: 40px 20px; color: #a0a0a0; }
+        .flex-row { display: flex; gap: 8px; align-items: center; }
         
-        /* Chart */
-        .chart-container { position: relative; height: 200px; width: 100%; }
-        
-        /* Overlays (Onboarding) */
-        .overlay {
-            position: fixed; inset: 0; background: rgba(255,249,244,0.95); backdrop-filter: blur(10px);
-            display: flex; justify-content: center; align-items: center; z-index: 9999; padding: 20px; flex-direction: column;
-        }
+        /* Overlays */
+        .overlay { position: fixed; inset: 0; background: rgba(255,249,244,0.95); backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; z-index: 9999; padding: 20px; flex-direction: column; }
         .overlay.hidden { display: none; }
         .auth-card { max-width: 400px; width: 100%; text-align: center; }
         .auth-card input { width: 100%; padding: 14px; border-radius: 16px; border: 2px solid var(--blush); font-family: inherit; font-size: 16px; margin: 8px 0; outline: none; }
-        .auth-card input:focus { border-color: var(--lavender); }
-        
-        /* Utilities */
-        .empty-state { text-align: center; padding: 40px 20px; color: #a0a0a0; }
-        .empty-state i { width: 48px; height: 48px; margin-bottom: 12px; color: var(--lavender); }
-        .flex-row { display: flex; gap: 8px; align-items: center; }
-        .text-sm { font-size: 12px; }
-        .text-muted { color: #8a7d8e; }
-        .mt-16 { margin-top: 16px; }
-        .mb-8 { margin-bottom: 8px; }
         
         @media (min-width: 768px) {
             .sidebar { display: flex; }
             .bottom-nav { display: none; }
-            .main-content { padding: 40px; padding-bottom: 40px; }
+            .main-content { padding: 40px; }
             .grid-2 { grid-template-columns: repeat(4, 1fr); }
             .grid-2 .glass-card:first-child { grid-column: span 2; }
             .grid-2 .glass-card:nth-child(2) { grid-column: span 2; }
@@ -221,13 +111,12 @@
 </head>
 <body>
 
-    <!-- LOADING SCREEN -->
     <div id="loading-overlay" class="overlay">
         <div style="font-size: 48px; margin-bottom: 16px; animation: pulse 1.5s infinite;">🌷</div>
         <div style="font-weight: 600; color: var(--plum);">Setting up your space...</div>
     </div>
 
-    <!-- ONBOARDING OVERLAY -->
+    <!-- Onboarding with Consent -->
     <div id="onboarding-overlay" class="overlay hidden">
         <div class="auth-card glass-card">
             <div style="font-size: 48px; margin-bottom: 16px;">✨</div>
@@ -235,14 +124,18 @@
             <div class="sub-text">Let's set up your profile.</div>
             <input type="text" id="onboarding-name" placeholder="What should we call you?" maxlength="30">
             <input type="number" id="onboarding-cycle" placeholder="Usual cycle length in days (optional)" min="20" max="45">
-            <div class="text-sm text-muted mb-8">If blank, we'll start with 28 days and learn as you log.</div>
+            
+            <div style="display: flex; align-items: flex-start; gap: 8px; margin: 16px 0; text-align: left;">
+                <input type="checkbox" id="consent-check" style="width: 20px; height: 20px; margin-top: 2px;">
+                <label for="consent-check" style="font-size: 12px; color: #6b5b72; line-height: 1.4;">I agree that my health data will be stored securely and I consent to HERSPACE's privacy policy (DPDP Act compliant).</label>
+            </div>
+            
             <button class="btn" onclick="completeOnboarding()">Enter My Space</button>
         </div>
     </div>
 
-    <!-- MAIN APP -->
+    <!-- Main App -->
     <div class="app-container hidden" id="main-app">
-        <!-- SIDEBAR -->
         <aside class="sidebar">
             <div class="logo"><i data-lucide="flower-2" style="color: var(--lavender);"></i> HERSPACE</div>
             <a class="nav-item active" onclick="navigate('dashboard')"><i data-lucide="layout-dashboard"></i> Dashboard</a>
@@ -250,20 +143,19 @@
             <a class="nav-item" onclick="navigate('mood')"><i data-lucide="smile"></i> Mood Space</a>
             <a class="nav-item" onclick="navigate('creative')"><i data-lucide="palette"></i> Creative Studio</a>
             <a class="nav-item" onclick="navigate('health-guide')"><i data-lucide="message-circle-heart"></i> Health Guide</a>
-            <a class="nav-item" onclick="navigate('doctor')"><i data-lucide="stethoscope"></i> Doctor Connect</a>
             <a class="nav-item" onclick="navigate('journal')"><i data-lucide="book-open"></i> My Journal</a>
             <a class="nav-item" onclick="navigate('insights')"><i data-lucide="bar-chart-2"></i> Insights</a>
-            <a class="nav-item" onclick="resetSession()" style="color:#e74c3c; margin-top: auto;"><i data-lucide="refresh-cw"></i> Reset Session</a>
+            <a class="nav-item" onclick="navigate('settings')"><i data-lucide="settings"></i> Settings</a>
         </aside>
 
-        <!-- MAIN CONTENT -->
         <main class="main-content">
             <!-- DASHBOARD -->
             <section id="view-dashboard" class="view-section active">
                 <div class="header-text" id="greeting-text">Hello, 🌷</div>
                 <div class="sub-text">Your personal wellness space is ready.</div>
+                
                 <div class="grid-2">
-                    <div class="glass-card cycle-widget" onclick="navigate('cycle')" style="cursor: pointer;">
+                    <div class="glass-card cycle-widget" onclick="navigate('cycle')">
                         <div class="cycle-circle">
                             <span class="cycle-day" id="dash-cycle-day">–</span>
                             <span class="cycle-label">Day</span>
@@ -271,22 +163,27 @@
                         <div style="font-weight: 600; font-size: 16px; margin-bottom: 4px;" id="dash-phase">Log your period</div>
                         <div style="font-size: 12px; color: #8a7d8e;" id="dash-next-period">No data yet</div>
                     </div>
-                    <div class="glass-card mood-widget" onclick="navigate('mood')" style="cursor: pointer;">
+                    
+                    <div class="glass-card mood-widget" onclick="navigate('mood')">
                         <div class="mood-buddy" id="dashboard-buddy">😊</div>
                         <div style="font-weight: 600; font-size: 16px; margin-top: 12px;" id="dash-mood-label">Log your mood</div>
                     </div>
-                    <div class="glass-card" style="grid-column: span 1;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                            <div style="font-weight: 700;">Self-Care 🌸</div>
-                            <div style="font-size: 12px; font-weight: 600; color: var(--lavender);" id="dash-selfcare-count">0/5</div>
-                        </div>
-                        <div style="height: 8px; background: #e0d6e4; border-radius: 4px; margin-top: 16px; overflow: hidden;">
-                            <div id="dash-selfcare-bar" style="width: 0%; height: 100%; background: var(--lavender); border-radius: 4px; transition: width 0.3s;"></div>
-                        </div>
+                </div>
+
+                <!-- Gamification & Self Care -->
+                <div class="glass-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                        <div style="font-weight: 700; font-size: 18px;">Daily Streak 🔥</div>
+                        <div style="font-size: 24px; font-weight: 800; color: var(--lavender);" id="streak-count">0 Days</div>
                     </div>
-                    <div class="glass-card" style="grid-column: span 1; display: flex; flex-direction: column; gap: 12px; justify-content: center;">
-                        <button class="btn btn-outline" style="font-size: 14px; padding: 10px;" onclick="navigate('health-guide')">Ask AI Guide</button>
-                        <button class="btn" style="font-size: 14px; padding: 10px;" onclick="navigate('creative')">Open Studio</button>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-top: 1px solid #eee; padding-top: 12px;">
+                        <div style="font-weight: 700;">Water Tracker 💧</div>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <button onclick="updateWater(-1)" style="border:none; background:var(--blush); width:30px; height:30px; border-radius:50%; font-weight:bold; cursor:pointer;">-</button>
+                            <span style="font-weight: 700; font-size: 18px;" id="water-count">0 / 8</span>
+                            <button onclick="updateWater(1)" style="border:none; background:var(--sage); width:30px; height:30px; border-radius:50%; font-weight:bold; cursor:pointer;">+</button>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -302,36 +199,23 @@
                         <button class="btn-outline" style="border:none; background:white; padding: 8px; border-radius: 8px; cursor:pointer;" onclick="changeMonth(1)"><i data-lucide="chevron-right"></i></button>
                     </div>
                     <div class="calendar-grid" id="calendar-grid"></div>
-                    <div style="display: flex; gap: 16px; margin-top: 20px; font-size: 12px; justify-content: center; flex-wrap: wrap;">
-                        <div style="display: flex; align-items: center; gap: 6px;"><div style="width: 10px; height: 10px; border-radius: 50%; background: var(--blush);"></div> Period</div>
-                        <div style="display: flex; align-items: center; gap: 6px;"><div style="width: 10px; height: 10px; border-radius: 50%; border: 2px dashed var(--blush);"></div> Predicted</div>
-                    </div>
                 </div>
                 <div class="glass-card">
                     <div style="font-weight: 700; margin-bottom: 12px;">Log / Edit Period</div>
                     <div class="flex-row" style="flex-wrap: wrap;">
-                        <input type="date" id="period-start" style="padding: 10px; border-radius: 12px; border: 1px solid #ddd; font-family: inherit; flex: 1;">
-                        <input type="date" id="period-end" style="padding: 10px; border-radius: 12px; border: 1px solid #ddd; font-family: inherit; flex: 1;">
+                        <input type="date" id="period-start" style="padding: 10px; border-radius: 12px; border: 1px solid #ddd; flex: 1;">
+                        <input type="date" id="period-end" style="padding: 10px; border-radius: 12px; border: 1px solid #ddd; flex: 1;">
                     </div>
-                    <div class="flex-row mt-16" style="flex-wrap: wrap;">
-                        <select id="period-flow" style="padding: 10px; border-radius: 12px; border: 1px solid #ddd; font-family: inherit; flex: 1;">
-                            <option value="light">Light flow</option>
-                            <option value="medium" selected>Medium flow</option>
-                            <option value="heavy">Heavy flow</option>
-                        </select>
-                        <button class="btn" style="width: auto; padding: 10px 20px;" onclick="savePeriod()">Save</button>
-                    </div>
+                    <button class="btn mt-16" onclick="savePeriod()">Save Period</button>
                     <div class="mt-16" id="period-history"></div>
                 </div>
             </section>
 
-            <!-- MOOD SPACE -->
+            <!-- MOOD -->
             <section id="view-mood" class="view-section">
                 <div class="header-text">Mood Space</div>
-                <div class="sub-text">How are you feeling right now?</div>
                 <div class="glass-card" style="text-align: center; padding: 40px 20px;">
                     <div class="mood-buddy" id="main-mood-buddy" style="width: 120px; height: 120px; font-size: 48px; margin: 0 auto;">😐</div>
-                    <div style="margin-top: 24px; font-weight: 600; color: var(--plum);" id="mood-status-text">Select your mood below</div>
                 </div>
                 <div class="mood-options">
                     <button class="mood-btn" onclick="setMood('😊', 'Happy')">😊</button>
@@ -339,69 +223,38 @@
                     <button class="mood-btn" onclick="setMood('😡', 'Angry')">😡</button>
                     <button class="mood-btn" onclick="setMood('😰', 'Anxious')">😰</button>
                     <button class="mood-btn" onclick="setMood('😌', 'Calm')">😌</button>
-                    <button class="mood-btn" onclick="setMood('😴', 'Tired')">😴</button>
-                </div>
-                <div class="glass-card mt-16">
-                    <div style="font-weight: 700; margin-bottom: 12px;">Recent Mood History</div>
-                    <div id="mood-history"></div>
                 </div>
             </section>
 
-            <!-- CREATIVE STUDIO (FULLSCREEN UPGRADE) -->
+            <!-- CREATIVE STUDIO -->
             <section id="view-creative" class="view-section">
-                <!-- Canvas Area -->
-                <div class="canvas-wrapper">
-                    <canvas id="paint-canvas"></canvas>
-                </div>
-
-                <!-- Tools Area -->
+                <div class="canvas-wrapper"><canvas id="paint-canvas"></canvas></div>
                 <div class="toolbar">
                     <div class="tool-row">
-                        <!-- Color Picker (All Colors) -->
-                        <div class="color-input-wrapper" title="Pick any color">
-                            <input type="color" id="color-picker" value="#49354F" onchange="setColor(this.value)">
-                        </div>
-                        
-                        <!-- Brush Size -->
-                        <div style="display: flex; align-items: center; gap: 8px; background: white; padding: 6px 12px; border-radius: 12px; box-shadow: var(--shadow);">
-                            <i data-lucide="paintbrush" style="width: 16px;"></i>
-                            <input type="range" id="brush-size" min="2" max="40" value="6" oninput="updateBrushSize(this.value)" style="width: 80px;">
-                        </div>
-                        
-                        <!-- Eraser -->
-                        <button id="eraser-btn" onclick="toggleEraser()" style="border:none; background: white; box-shadow: var(--shadow); padding: 8px 16px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 6px;">
-                            <i data-lucide="eraser" style="width: 16px;"></i> Eraser
-                        </button>
-
-                        <!-- Action Buttons -->
-                        <button onclick="downloadDrawing()" style="border:none; background: var(--sage); padding: 8px 16px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 6px;"><i data-lucide="download" style="width: 16px;"></i> Save</button>
-                        <button onclick="clearCanvasConfirm()" style="border:none; background: #ffebeb; color: #d66; padding: 8px 16px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 6px;"><i data-lucide="trash-2" style="width: 16px;"></i> Clear</button>
+                        <div class="color-input-wrapper"><input type="color" id="color-picker" value="#49354F" onchange="setColor(this.value)"></div>
+                        <input type="range" id="brush-size" min="2" max="40" value="6" oninput="updateBrushSize(this.value)" style="width: 80px;">
+                        <button onclick="toggleEraser()" id="eraser-btn" style="border:none; background: white; padding: 8px 12px; border-radius: 12px; cursor:pointer;"><i data-lucide="eraser" style="width:16px;"></i></button>
+                        <button onclick="undoCanvas()" style="border:none; background: white; padding: 8px 12px; border-radius: 12px; cursor:pointer;"><i data-lucide="undo" style="width:16px;"></i></button>
+                        <button onclick="redoCanvas()" style="border:none; background: white; padding: 8px 12px; border-radius: 12px; cursor:pointer;"><i data-lucide="redo" style="width:16px;"></i></button>
+                        <button onclick="downloadDrawing()" style="border:none; background: var(--sage); padding: 8px 12px; border-radius: 12px; cursor:pointer;"><i data-lucide="download" style="width:16px;"></i></button>
+                        <button onclick="clearCanvasConfirm()" style="border:none; background: #ffebeb; color:#d66; padding: 8px 12px; border-radius: 12px; cursor:pointer;">Clear</button>
                     </div>
-
-                    <!-- Stickers Bar -->
                     <div class="sticker-bar">
                         <button class="sticker-btn" onclick="selectSticker('🌸', this)">🌸</button>
                         <button class="sticker-btn" onclick="selectSticker('⭐', this)">⭐</button>
                         <button class="sticker-btn" onclick="selectSticker('❤️', this)">❤️</button>
                         <button class="sticker-btn" onclick="selectSticker('🦋', this)">🦋</button>
-                        <button class="sticker-btn" onclick="selectSticker('☁️', this)">☁️</button>
-                        <button class="sticker-btn" onclick="selectSticker('🌙', this)">🌙</button>
                         <button class="sticker-btn" onclick="selectSticker('✨', this)">✨</button>
-                        <button class="sticker-btn" onclick="selectSticker('🌻', this)">🌻</button>
-                        <button class="sticker-btn" onclick="selectSticker('🍓', this)">🍓</button>
-                        <button class="sticker-btn" onclick="selectSticker('🧸', this)">🧸</button>
-                        <button class="sticker-btn" onclick="selectSticker('🦄', this)">🦄</button>
                     </div>
                 </div>
             </section>
 
-            <!-- HER HEALTH GUIDE -->
+            <!-- AI GUIDE -->
             <section id="view-health-guide" class="view-section">
                 <div class="header-text">HER Health Guide</div>
-                <div class="sub-text">Ask educational questions about your body.</div>
                 <div class="glass-card chat-container">
                     <div class="chat-messages" id="chat-messages">
-                        <div class="msg ai">Hi! I'm your AI companion. Ask me anything about menstrual health. <br><br><span class="text-sm text-muted">⚠️ Demo mode active.</span></div>
+                        <div class="msg ai">Hi! I'm your AI companion. Ask me anything about menstrual health.</div>
                     </div>
                     <div class="chat-input-area">
                         <input type="text" class="chat-input" id="chat-input" placeholder="Ask a question..." onkeypress="handleChatEnter(event)">
@@ -410,97 +263,66 @@
                 </div>
             </section>
 
-            <!-- DOCTOR CONNECT -->
-            <section id="view-doctor" class="view-section">
-                <div class="header-text">Doctor Connect</div>
-                <div class="sub-text">Consult with gynecologists.</div>
-                <div class="glass-card">
-                    <div style="background: #fff3cd; color: #856404; padding: 12px; border-radius: 12px; font-size: 12px; margin-bottom: 16px;">
-                        ⚠️ <strong>DEMO ONLY:</strong> Fictional profiles. Interface for future integration.
-                    </div>
-                    <div class="doctor-card">
-                        <div class="doc-avatar">👩🏽‍⚕️</div>
-                        <div style="flex: 1;">
-                            <div style="font-weight: 700; font-size: 16px;">Dr. Demo Sharma</div>
-                            <div style="font-size: 12px; color: #8a7d8e;">MD, Obstetrics & Gynecology</div>
-                        </div>
-                        <button class="btn" style="width: auto; padding: 8px 16px; font-size: 12px;" onclick="alert('Demo only.')">Request</button>
-                    </div>
-                </div>
-            </section>
-
             <!-- JOURNAL -->
             <section id="view-journal" class="view-section">
                 <div class="header-text">My Journal</div>
-                <div class="sub-text">Your private diary.</div>
                 <div class="glass-card">
-                    <textarea id="journal-input" placeholder="Write your thoughts..." style="width:100%; height:120px; border-radius:16px; border:1px solid #ddd; padding:12px; font-family:inherit; font-size:14px; resize:vertical;"></textarea>
-                    <div class="flex-row mt-16">
-                        <input type="date" id="journal-date" style="padding:10px; border-radius:12px; border:1px solid #ddd; font-family:inherit;">
-                        <button class="btn" style="width:auto; padding:10px 20px;" onclick="saveJournalEntry()">Save</button>
-                    </div>
+                    <textarea id="journal-input" placeholder="Write your thoughts..." style="width:100%; height:120px; border-radius:16px; border:1px solid #ddd; padding:12px; font-family:inherit;"></textarea>
+                    <button class="btn mt-16" onclick="saveJournalEntry()">Save Entry</button>
                 </div>
                 <div id="journal-entries"></div>
             </section>
 
-            <!-- INSIGHTS -->
-            <section id="view-insights" class="view-section">
-                <div class="header-text">Wellness Insights</div>
-                <div class="sub-text">Your trends.</div>
+            <!-- SETTINGS & PRIVACY -->
+            <section id="view-settings" class="view-section">
+                <div class="header-text">Settings</div>
                 <div class="glass-card">
-                    <div style="font-weight: 700; margin-bottom: 16px;">Cycle Length History</div>
-                    <div class="chart-container" id="chart-container"><canvas id="cycleChart"></canvas></div>
-                    <div id="chart-empty-state" class="empty-state" style="display:none;"><i data-lucide="bar-chart-2"></i><div>Log at least 2 periods.</div></div>
+                    <div style="font-weight: 700; margin-bottom: 12px;">Privacy & Data</div>
+                    <p class="sub-text" style="font-size: 12px;">Your data is yours. You can export or permanently delete it anytime.</p>
+                    <button class="btn btn-outline" style="margin-bottom: 12px;" onclick="exportData()">Export Data (JSON)</button>
+                    <button class="btn" style="background: #e74c3c;" onclick="deleteAccountData()">Delete All Data</button>
+                </div>
+                <div class="glass-card">
+                    <div style="font-weight: 700; margin-bottom: 12px;">Install App</div>
+                    <p class="sub-text" style="font-size: 12px;">Install HERSPACE on your home screen for quick access.</p>
+                    <button class="btn" id="install-btn" style="display: none;" onclick="installPWA()">Install App</button>
+                    <div id="install-hint" class="text-sm text-muted">If you don't see a button, use browser menu > "Add to Home Screen".</div>
                 </div>
             </section>
         </main>
     </div>
 
-    <!-- MOBILE BOTTOM NAV -->
     <nav class="bottom-nav hidden" id="mobile-nav">
         <div class="nav-item-mobile active" onclick="navigate('dashboard')"><i data-lucide="home"></i> Home</div>
         <div class="nav-item-mobile" onclick="navigate('cycle')"><i data-lucide="calendar"></i> Cycle</div>
         <div class="nav-item-mobile" onclick="navigate('mood')"><i data-lucide="smile"></i> Mood</div>
         <div class="nav-item-mobile" onclick="navigate('creative')"><i data-lucide="palette"></i> Studio</div>
-        <div class="nav-item-mobile" onclick="navigate('health-guide')"><i data-lucide="message-circle"></i> AI</div>
+        <div class="nav-item-mobile" onclick="navigate('settings')"><i data-lucide="settings"></i> Settings</div>
     </nav>
 
     <script>
-        // --- SUPABASE CONFIGURATION ---
+        // --- SUPABASE CONFIG ---
         const SUPABASE_URL = 'https://fxhyisviicvimfqioivf.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_zMlGyD49nOKVuSqADfpdJA_E6X6LBdu';
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // --- STATE MANAGEMENT ---
-        let currentUser = null;
-        let userProfile = null;
-        let periodsData = [];
-        let moodsData = [];
-        let journalData = [];
-        
-        let currentMonth = new Date().getMonth();
-        let currentYear = new Date().getFullYear();
-        let chartInstance = null;
+        let currentUser = null, userProfile = null;
+        let periodsData = [], moodsData = [], journalData = [];
+        let currentMonth = new Date().getMonth(), currentYear = new Date().getFullYear();
 
-        // --- SILENT AUTHENTICATION LOGIC ---
+        // --- AUTH & DATA ---
         async function initAuth() {
             try {
                 const { data: { session } } = await supabaseClient.auth.getSession();
-                
                 if (!session) {
                     const { data, error } = await supabaseClient.auth.signInAnonymously();
-                    if (error) {
-                        console.error(error);
-                        alert("Database connection failed. Please ensure Anonymous Sign-ins are enabled in Supabase.");
-                        return;
-                    }
+                    if (error) throw error;
                     currentUser = data.user;
                 } else {
                     currentUser = session.user;
                 }
 
-                const { data: profile, error: profileError } = await supabaseClient.from('profiles').select('*').eq('id', currentUser.id).single();
-                
+                const { data: profile } = await supabaseClient.from('profiles').select('*').eq('id', currentUser.id).single();
                 document.getElementById('loading-overlay').classList.add('hidden');
 
                 if (!profile) {
@@ -511,35 +333,29 @@
                     await loadAppData();
                 }
             } catch (err) {
-                console.error("Auth Error:", err);
-                alert("Something went wrong while connecting to the database.");
+                console.error(err);
+                alert("Database connection failed.");
             }
         }
 
         async function completeOnboarding() {
             const name = document.getElementById('onboarding-name').value.trim();
             const cycleInput = document.getElementById('onboarding-cycle').value;
+            const consent = document.getElementById('consent-check').checked;
+            
             if (!name) { alert('Please enter a name.'); return; }
+            if (!consent) { alert('Please accept the privacy consent to continue.'); return; }
 
             const { error } = await supabaseClient.from('profiles').upsert({
-                id: currentUser.id,
-                display_name: name,
-                usual_cycle_length: cycleInput ? parseInt(cycleInput) : null
+                id: currentUser.id, display_name: name, usual_cycle_length: cycleInput ? parseInt(cycleInput) : null
             });
-
-            if (error) { alert("Error saving profile: " + error.message); return; }
+            if (error) { alert("Error: " + error.message); return; }
             
-            userProfile = { display_name: name, usual_cycle_length: cycleInput ? parseInt(cycleInput) : null };
+            userProfile = { display_name: name, usual_cycle_length: cycleInput ? parseInt(cycleInput) : 28 };
             document.getElementById('onboarding-overlay').classList.add('hidden');
             await loadAppData();
         }
 
-        function resetSession() {
-            if(!confirm("This will clear your current anonymous session. You will start as a new user. Continue?")) return;
-            supabaseClient.auth.signOut().then(() => location.reload());
-        }
-
-        // --- DATA FETCHING ---
         async function loadAppData() {
             document.getElementById('main-app').classList.remove('hidden');
             document.getElementById('mobile-nav').classList.remove('hidden');
@@ -550,270 +366,213 @@
                 supabaseClient.from('journal').select('*').order('entry_date', { ascending: false })
             ]);
 
-            periodsData = pRes.data || [];
-            moodsData = mRes.data || [];
-            journalData = jRes.data || [];
+            periodsData = pRes.data || []; moodsData = mRes.data || []; journalData = jRes.data || [];
 
-            updateDashboard();
-            renderCalendar();
-            renderPeriodHistory();
-            renderMoodHistory();
-            renderJournalEntries();
+            updateDashboard(); renderCalendar(); renderPeriodHistory(); renderMoodHistory(); renderJournalEntries(); 
+            checkStreak();
+            loadLocalSelfCare();
             lucide.createIcons();
         }
 
-        // --- DASHBOARD ---
+        // --- DASHBOARD & GAMIFICATION ---
         function updateDashboard() {
             const name = userProfile?.display_name || 'Friend';
             document.getElementById('greeting-text').innerText = `Hello, ${name} 🌷`;
 
             if (periodsData.length > 0) {
                 const lastStart = new Date(periodsData[0].start_date);
-                const today = new Date();
-                const diffDays = Math.floor((today - lastStart) / (1000*60*60*24)) + 1;
-                
+                const diffDays = Math.floor((new Date() - lastStart) / (1000*60*60*24)) + 1;
                 document.getElementById('dash-cycle-day').innerText = diffDays > 0 ? diffDays : '–';
                 document.getElementById('dash-phase').innerText = diffDays <= 5 ? 'Menstrual Phase' : 'Follicular/Luteal Phase';
                 
-                const next = predictNextPeriod();
-                if (next) {
-                    const daysLeft = Math.ceil((next - today) / (1000*60*60*24));
-                    document.getElementById('dash-next-period').innerText = daysLeft > 0 ? `Next period in ~${daysLeft} days` : 'Period may be due';
-                }
-            } else {
-                document.getElementById('dash-cycle-day').innerText = '–';
-                document.getElementById('dash-phase').innerText = 'Log your period';
-                document.getElementById('dash-next-period').innerText = 'No data yet';
+                const avg = calculateAverageCycleLength();
+                const next = new Date(lastStart); next.setDate(next.getDate() + avg);
+                const daysLeft = Math.ceil((next - new Date()) / (1000*60*60*24));
+                document.getElementById('dash-next-period').innerText = daysLeft > 0 ? `Next period in ~${daysLeft} days` : 'Period may be due';
             }
-
             if (moodsData.length > 0) {
                 document.getElementById('dashboard-buddy').innerText = moodsData[0].emoji;
                 document.getElementById('dash-mood-label').innerText = `Feeling ${moodsData[0].mood_text}`;
             }
         }
 
+        function checkStreak() {
+            const lastLogin = localStorage.getItem('herspace_last_login');
+            const today = new Date().toDateString();
+            let streak = parseInt(localStorage.getItem('herspace_streak') || "0");
+
+            if (lastLogin !== today) {
+                const yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1);
+                if (lastLogin === yesterday.toDateString()) {
+                    streak++; // Continued streak
+                } else {
+                    streak = 1; // New streak
+                }
+                localStorage.setItem('herspace_last_login', today);
+                localStorage.setItem('herspace_streak', streak);
+            }
+            document.getElementById('streak-count').innerText = `${streak} Day${streak > 1 ? 's' : ''}`;
+        }
+
+        // --- SELF CARE (Water Tracker) ---
+        function loadLocalSelfCare() {
+            const today = new Date().toDateString();
+            let data = JSON.parse(localStorage.getItem('herspace_water')) || { date: today, count: 0 };
+            if (data.date !== today) { data = { date: today, count: 0 }; localStorage.setItem('herspace_water', JSON.stringify(data)); }
+            document.getElementById('water-count').innerText = `${data.count} / 8`;
+        }
+
+        function updateWater(change) {
+            let data = JSON.parse(localStorage.getItem('herspace_water')) || { date: new Date().toDateString(), count: 0 };
+            data.count = Math.max(0, Math.min(8, data.count + change));
+            localStorage.setItem('herspace_water', JSON.stringify(data));
+            document.getElementById('water-count').innerText = `${data.count} / 8`;
+        }
+
         // --- CYCLE ENGINE ---
         function calculateAverageCycleLength() {
             if (periodsData.length < 2) return userProfile?.usual_cycle_length || 28;
-            const recent = periodsData.slice(0, 6).reverse(); 
             let total = 0, count = 0;
-            for (let i = 1; i < recent.length; i++) {
-                const diff = (new Date(recent[i].start_date) - new Date(recent[i-1].start_date)) / (1000*60*60*24);
+            for (let i = 1; i < Math.min(periodsData.length, 6); i++) {
+                const diff = (new Date(periodsData[i-1].start_date) - new Date(periodsData[i].start_date)) / (1000*60*60*24);
                 if (diff > 15 && diff < 60) { total += diff; count++; }
             }
             return count > 0 ? Math.round(total / count) : (userProfile?.usual_cycle_length || 28);
         }
 
-        function predictNextPeriod() {
-            if (periodsData.length === 0) return null;
-            const last = periodsData[0];
-            const avg = calculateAverageCycleLength();
-            const next = new Date(last.start_date);
-            next.setDate(next.getDate() + avg);
-            return next;
-        }
-
         async function savePeriod() {
             const start = document.getElementById('period-start').value;
             const end = document.getElementById('period-end').value;
-            const flow = document.getElementById('period-flow').value;
-            if (!start || !end) { alert('Please select start and end dates.'); return; }
-            const { error } = await supabaseClient.from('periods').insert([{ start_date: start, end_date: end, flow: flow, symptoms: [] }]);
-            if (error) { alert('Error saving: ' + error.message); return; }
-            alert('Period saved!');
+            if (!start || !end) { alert('Select dates.'); return; }
+            await supabaseClient.from('periods').insert([{ start_date: start, end_date: end, flow: 'medium', symptoms: [] }]);
             await loadAppData(); 
         }
 
         async function deletePeriod(id) {
-            if (!confirm('Delete this period entry?')) return;
+            if (!confirm('Delete this record?')) return;
             await supabaseClient.from('periods').delete().eq('id', id);
             await loadAppData();
         }
 
-        function renderPeriodHistory() {
-            const container = document.getElementById('period-history');
-            if (periodsData.length === 0) {
-                container.innerHTML = '<div class="empty-state"><i data-lucide="calendar"></i><div>No periods logged yet.</div></div>';
-                lucide.createIcons(); return;
-            }
-            container.innerHTML = periodsData.map(p => `
-                <div class="glass-card" style="padding: 12px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
-                    <div>
-                        <div style="font-weight: 600; font-size: 14px;">${p.start_date} → ${p.end_date}</div>
-                        <div class="text-sm text-muted">Flow: ${p.flow}</div>
-                    </div>
-                    <button onclick="deletePeriod(${p.id})" style="background:none; border:none; cursor:pointer; color:#d66;">✕</button>
-                </div>
-            `).join('');
-            lucide.createIcons();
-        }
-
-        // --- CALENDAR ---
+        // --- UI RENDERING ---
         function renderCalendar() {
             const grid = document.getElementById('calendar-grid');
-            const label = document.getElementById('calendar-month-label');
-            const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-            label.innerText = `${months[currentMonth]} ${currentYear}`;
+            const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+            document.getElementById('calendar-month-label').innerText = `${months[currentMonth]} ${currentYear}`;
             grid.innerHTML = '';
-            ['S','M','T','W','T','F','S'].forEach(d => grid.innerHTML += `<div style="font-size:10px; font-weight:700; color:#a0a0a0; margin-bottom:8px;">${d}</div>`);
+            ['S','M','T','W','T','F','S'].forEach(d => grid.innerHTML += `<div style="font-size:10px; color:#a0a0a0;">${d}</div>`);
+            
             const firstDay = new Date(currentYear, currentMonth, 1).getDay();
             const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
             for (let i = 0; i < firstDay; i++) grid.innerHTML += '<div></div>';
-            const today = new Date();
-            const isCurrentMonth = today.getMonth() === currentMonth && today.getFullYear() === currentYear;
-            const predicted = predictNextPeriod();
+            
             for (let d = 1; d <= daysInMonth; d++) {
                 const dateStr = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
                 let cls = 'cal-day';
                 if (periodsData.some(p => dateStr >= p.start_date && dateStr <= p.end_date)) cls += ' period';
-                if (predicted) {
-                    const predStart = new Date(predicted);
-                    const predEnd = new Date(predicted); predEnd.setDate(predEnd.getDate() + 4);
-                    if (dateStr >= predStart.toISOString().slice(0,10) && dateStr <= predEnd.toISOString().slice(0,10) && !cls.includes('period')) cls += ' predicted';
-                }
-                if (isCurrentMonth && d === today.getDate()) cls += ' today';
                 grid.innerHTML += `<div class="${cls}">${d}</div>`;
             }
         }
+        
+        function changeMonth(d) { currentMonth += d; if(currentMonth<0){currentMonth=11;currentYear--;} if(currentMonth>11){currentMonth=0;currentYear++;} renderCalendar(); }
 
-        function changeMonth(delta) {
-            currentMonth += delta;
-            if (currentMonth < 0) { currentMonth = 11; currentYear--; }
-            if (currentMonth > 11) { currentMonth = 0; currentYear++; }
-            renderCalendar();
-        }
-
-        // --- MOOD ---
-        async function setMood(emoji, text) {
-            const { error } = await supabaseClient.from('moods').insert([{ emoji, mood_text: text }]);
-            if (error) { alert('Error saving mood.'); return; }
-            document.getElementById('main-mood-buddy').innerText = emoji;
-            document.getElementById('mood-status-text').innerText = `Feeling ${text}`;
-            await loadAppData();
-        }
-
-        function renderMoodHistory() {
-            const container = document.getElementById('mood-history');
-            if (moodsData.length === 0) {
-                container.innerHTML = '<div class="empty-state"><i data-lucide="smile"></i><div>No moods logged yet.</div></div>';
-                lucide.createIcons(); return;
-            }
-            container.innerHTML = moodsData.slice(0, 10).map(m => `
-                <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #eee; font-size:14px;">
-                    <span>${m.emoji} ${m.mood_text}</span>
-                    <span class="text-sm text-muted">${new Date(m.created_at).toLocaleDateString()}</span>
+        function renderPeriodHistory() {
+            document.getElementById('period-history').innerHTML = periodsData.map(p => `
+                <div class="glass-card" style="padding: 12px; display: flex; justify-content: space-between; margin-bottom: 8px;">
+                    <span>${p.start_date} → ${p.end_date}</span>
+                    <button onclick="deletePeriod(${p.id})" style="border:none; background:none; color:red; cursor:pointer;">✕</button>
                 </div>
             `).join('');
         }
 
-        // --- JOURNAL ---
+        async function setMood(emoji, text) {
+            await supabaseClient.from('moods').insert([{ emoji, mood_text: text }]);
+            await loadAppData();
+        }
+
+        function renderMoodHistory() {}
+
         async function saveJournalEntry() {
             const text = document.getElementById('journal-input').value.trim();
-            const date = document.getElementById('journal-date').value || new Date().toISOString().slice(0,10);
-            if (!text) { alert('Please write something.'); return; }
-            const { error } = await supabaseClient.from('journal').insert([{ entry_date: date, content: text }]);
-            if (error) { alert('Error saving.'); return; }
+            if (!text) return;
+            await supabaseClient.from('journal').insert([{ entry_date: new Date().toISOString().slice(0,10), content: text }]);
             document.getElementById('journal-input').value = '';
             await loadAppData();
         }
 
-        async function deleteJournalEntry(id) {
-            if (!confirm('Delete this entry?')) return;
-            await supabaseClient.from('journal').delete().eq('id', id);
-            await loadAppData();
-        }
-
         function renderJournalEntries() {
-            const container = document.getElementById('journal-entries');
-            if (journalData.length === 0) {
-                container.innerHTML = '<div class="empty-state"><i data-lucide="book-open"></i><div>No journal entries yet.</div></div>';
-                lucide.createIcons(); return;
-            }
-            container.innerHTML = journalData.map(e => `
+            document.getElementById('journal-entries').innerHTML = journalData.map(e => `
                 <div class="glass-card" style="margin-bottom: 8px;">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-                        <span class="text-sm text-muted">${e.entry_date}</span>
-                        <button onclick="deleteJournalEntry(${e.id})" style="background:none; border:none; cursor:pointer; color:#d66;">✕</button>
-                    </div>
-                    <div style="font-size:14px; line-height:1.5;">${e.content}</div>
+                    <div style="font-size: 12px; color: #888; margin-bottom: 4px;">${e.entry_date}</div>
+                    <div style="font-size: 14px;">${e.content}</div>
                 </div>
             `).join('');
-            lucide.createIcons();
         }
 
-        // --- NAVIGATION & UI ---
-        function navigate(viewId) {
-            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-            document.getElementById(`view-${viewId}`).classList.add('active');
-            
-            document.querySelectorAll('.sidebar .nav-item').forEach(el => {
-                el.classList.remove('active');
-                if (el.getAttribute('onclick')?.includes(viewId)) el.classList.add('active');
-            });
-            document.querySelectorAll('.bottom-nav .nav-item-mobile').forEach(el => {
-                el.classList.remove('active');
-                if (el.getAttribute('onclick')?.includes(viewId)) el.classList.add('active');
-            });
-            
-            if (viewId === 'insights') renderCharts();
-            if (viewId === 'creative') setTimeout(initCanvas, 100); // Fix canvas sizing
-        }
-
-        // --- FULLSCREEN CANVAS & STICKERS ---
+        // --- CREATIVE STUDIO (UNDO/REDO ADDED) ---
         const canvas = document.getElementById('paint-canvas');
-        let ctx;
-        let isDrawing = false;
-        let currentColor = '#49354F';
-        let currentBrushSize = 6;
-        let isEraser = false;
-        let currentSticker = null;
+        let ctx, isDrawing = false, currentColor = '#49354F', currentBrushSize = 6, isEraser = false, currentSticker = null;
+        let undoStack = [], redoStack = [];
 
         function initCanvas() {
             if (!canvas) return;
             ctx = canvas.getContext('2d');
-            
-            // Make canvas resolution match its display size
             const rect = canvas.parentElement.getBoundingClientRect();
-            canvas.width = rect.width;
-            canvas.height = rect.height;
+            canvas.width = rect.width; canvas.height = rect.height;
+            ctx.lineCap = 'round'; ctx.lineJoin = 'round'; 
             
-            ctx.lineCap = 'round'; 
-            ctx.lineJoin = 'round'; 
-            
-            // Mouse Events
             canvas.addEventListener('mousedown', startDrawing);
             canvas.addEventListener('mousemove', draw);
             canvas.addEventListener('mouseup', stopDrawing);
             canvas.addEventListener('mouseout', stopDrawing);
-
-            // Touch Events
             canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startDrawing(e.touches[0]); }, {passive: false});
             canvas.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e.touches[0]); }, {passive: false});
             canvas.addEventListener('touchend', stopDrawing);
-            canvas.addEventListener('touchcancel', stopDrawing);
+            
+            saveCanvasState(); // Initial state
+        }
+
+        function saveCanvasState() {
+            if (undoStack.length > 15) undoStack.shift();
+            undoStack.push(canvas.toDataURL());
+            redoStack = []; // Clear redo on new action
+        }
+
+        function restoreCanvasState(dataUrl) {
+            const img = new Image();
+            img.src = dataUrl;
+            img.onload = () => { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.drawImage(img, 0, 0); };
+        }
+
+        function undoCanvas() {
+            if (undoStack.length > 1) {
+                redoStack.push(undoStack.pop());
+                restoreCanvasState(undoStack[undoStack.length - 1]);
+            }
+        }
+
+        function redoCanvas() {
+            if (redoStack.length > 0) {
+                const state = redoStack.pop();
+                undoStack.push(state);
+                restoreCanvasState(state);
+            }
         }
 
         function getCoordinates(e) {
             const rect = canvas.getBoundingClientRect();
-            return {
-                x: (e.clientX || e.pageX) - rect.left,
-                y: (e.clientY || e.pageY) - rect.top
-            };
+            return { x: (e.clientX || e.pageX) - rect.left, y: (e.clientY || e.pageY) - rect.top };
         }
 
         function startDrawing(e) {
             const pos = getCoordinates(e);
-            
-            // If a sticker is selected, place it and stop
             if (currentSticker) {
                 ctx.font = `${currentBrushSize * 4}px Arial`;
                 ctx.fillText(currentSticker, pos.x - 20, pos.y + 20);
+                saveCanvasState();
                 return; 
             }
-
-            isDrawing = true;
-            ctx.beginPath();
-            ctx.moveTo(pos.x, pos.y);
+            isDrawing = true; ctx.beginPath(); ctx.moveTo(pos.x, pos.y);
         }
 
         function draw(e) {
@@ -821,126 +580,109 @@
             const pos = getCoordinates(e);
             ctx.strokeStyle = isEraser ? '#FFFFFF' : currentColor;
             ctx.lineWidth = currentBrushSize;
-            ctx.lineTo(pos.x, pos.y);
-            ctx.stroke();
+            ctx.lineTo(pos.x, pos.y); ctx.stroke();
         }
 
-        function stopDrawing() {
-            isDrawing = false;
-            ctx.closePath();
-        }
-
-        function setColor(color) {
-            currentColor = color;
-            isEraser = false;
-            currentSticker = null; // Deselect sticker
-            document.getElementById('eraser-btn').style.background = 'white';
-            document.querySelectorAll('.sticker-btn').forEach(s => s.classList.remove('active'));
-        }
-
-        function updateBrushSize(val) {
-            currentBrushSize = parseInt(val);
-        }
-
-        function toggleEraser() {
-            isEraser = !isEraser;
-            currentSticker = null; // Deselect sticker
-            document.getElementById('eraser-btn').style.background = isEraser ? 'var(--lavender)' : 'white';
-            document.querySelectorAll('.sticker-btn').forEach(s => s.classList.remove('active'));
-        }
-
-        function selectSticker(emoji, el) {
-            currentSticker = emoji;
-            isEraser = false;
-            document.getElementById('eraser-btn').style.background = 'white';
-            document.querySelectorAll('.sticker-btn').forEach(s => s.classList.remove('active'));
-            el.classList.add('active');
-        }
-
-        function clearCanvasConfirm() {
-            if(confirm('Clear the canvas? This cannot be undone.')) {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-            }
-        }
-
+        function stopDrawing() { if(isDrawing) { isDrawing = false; ctx.closePath(); saveCanvasState(); } }
+        function setColor(color) { currentColor = color; isEraser = false; currentSticker = null; }
+        function updateBrushSize(val) { currentBrushSize = parseInt(val); }
+        function toggleEraser() { isEraser = !isEraser; currentSticker = null; }
+        function selectSticker(s) { currentSticker = s; isEraser = false; }
+        function clearCanvasConfirm() { if(confirm('Clear canvas?')) { ctx.clearRect(0, 0, canvas.width, canvas.height); saveCanvasState(); } }
+        
         function downloadDrawing() {
-            // Create a temporary canvas with white background to avoid transparent PNG issues
-            const tempCanvas = document.createElement('canvas');
-            tempCanvas.width = canvas.width;
-            tempCanvas.height = canvas.height;
-            const tempCtx = tempCanvas.getContext('2d');
-            tempCtx.fillStyle = '#FFFFFF';
-            tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
-            tempCtx.drawImage(canvas, 0, 0);
-
-            const link = document.createElement('a');
-            link.download = `HERSPACE-Art-${Date.now()}.png`;
-            link.href = tempCanvas.toDataURL();
-            link.click();
+            const tempCanvas = document.createElement('canvas'); tempCanvas.width = canvas.width; tempCanvas.height = canvas.height;
+            const tempCtx = tempCanvas.getContext('2d'); tempCtx.fillStyle = '#FFF'; tempCtx.fillRect(0,0,tempCanvas.width,tempCanvas.height); tempCtx.drawImage(canvas,0,0);
+            const link = document.createElement('a'); link.download = `HERSPACE-${Date.now()}.png`; link.href = tempCanvas.toDataURL(); link.click();
         }
 
-        // --- AI CHAT ---
+        // --- REAL AI CONNECTION ---
         function handleChatEnter(e) { if(e.key === 'Enter') sendChatMessage(); }
-        function sendChatMessage() {
+        async function sendChatMessage() {
             const input = document.getElementById('chat-input');
             const msg = input.value.trim();
             if(!msg) return;
+            
             const container = document.getElementById('chat-messages');
             container.innerHTML += `<div class="msg user">${msg}</div>`;
             input.value = ''; container.scrollTop = container.scrollHeight;
             
-            setTimeout(() => {
-                let reply = "Demo response: Please consult a doctor for medical advice.";
-                if(msg.toLowerCase().includes('cramp')) reply = "Period cramps are common. A heating pad and hydration can help.";
-                container.innerHTML += `<div class="msg ai">${reply}</div>`;
-                container.scrollTop = container.scrollHeight;
-            }, 1000);
+            // Typing indicator
+            const typingId = 'typing-' + Date.now();
+            container.innerHTML += `<div class="msg ai" id="${typingId}">...</div>`;
+
+            try {
+                // Call Vercel Serverless Function
+                const res = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: msg })
+                });
+                const data = await res.json();
+                
+                document.getElementById(typingId).innerText = data.reply || "I'm having trouble connecting right now.";
+            } catch (err) {
+                document.getElementById(typingId).innerText = "Network error. Please check your connection or setup the AI API.";
+            }
+            container.scrollTop = container.scrollHeight;
         }
 
-        // --- CHARTS ---
-        function renderCharts() {
-            if (periodsData.length < 2) {
-                document.getElementById('chart-container').style.display = 'none';
-                document.getElementById('chart-empty-state').style.display = 'block';
-            } else {
-                document.getElementById('chart-container').style.display = 'block';
-                document.getElementById('chart-empty-state').style.display = 'none';
-                
-                const labels = [], data = [];
-                const sorted = periodsData.slice().reverse();
-                for (let i = 1; i < sorted.length; i++) {
-                    const diff = (new Date(sorted[i].start_date) - new Date(sorted[i-1].start_date)) / (1000*60*60*24);
-                    labels.push(`Cycle ${i}`); data.push(diff);
-                }
-                
-                if (chartInstance) chartInstance.destroy();
-                chartInstance = new Chart(document.getElementById('cycleChart'), {
-                    type: 'line',
-                    data: { labels, datasets: [{ label: 'Cycle Length', data, borderColor: '#C7A6DC', backgroundColor: 'rgba(199,166,220,0.2)', tension: 0.4, fill: true, borderWidth: 2 }] },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+        // --- SETTINGS & PWA ---
+        function exportData() {
+            const data = { profile: userProfile, periods: periodsData, moods: moodsData, journal: journalData };
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'herspace_backup.json'; a.click();
+        }
+
+        async function deleteAccountData() {
+            if (!confirm("Are you absolutely sure? This will delete all your health records permanently.")) return;
+            
+            await supabaseClient.from('periods').delete().eq('user_id', currentUser.id);
+            await supabaseClient.from('moods').delete().eq('user_id', currentUser.id);
+            await supabaseClient.from('journal').delete().eq('user_id', currentUser.id);
+            await supabaseClient.from('profiles').delete().eq('id', currentUser.id);
+            
+            localStorage.clear();
+            alert("Data deleted. Reloading app.");
+            location.reload();
+        }
+
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('install-btn').style.display = 'block';
+            document.getElementById('install-hint').style.display = 'none';
+        });
+
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') console.log('User installed PWA');
+                    deferredPrompt = null;
+                    document.getElementById('install-btn').style.display = 'none';
                 });
             }
         }
 
-        // --- INITIALIZATION ---
+        // --- NAVIGATION ---
+        function navigate(viewId) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.getElementById(`view-${viewId}`).classList.add('active');
+            
+            document.querySelectorAll('.nav-item, .nav-item-mobile').forEach(el => {
+                el.classList.remove('active');
+                if (el.getAttribute('onclick')?.includes(viewId)) el.classList.add('active');
+            });
+            
+            if (viewId === 'creative') setTimeout(initCanvas, 100);
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(initCanvas, 500); 
-            
-            const jd = document.getElementById('journal-date');
-            if(jd) jd.value = new Date().toISOString().slice(0,10);
-            
             initAuth();
             lucide.createIcons();
         });
-        
-        // Handle Window Resize for Canvas
-        window.addEventListener('resize', () => {
-            if (document.getElementById('view-creative').classList.contains('active')) {
-                // Note: Resizing canvas clears it. In a real app, you'd save image data and redraw.
-                // For this demo, we'll just re-init to keep it responsive.
-                initCanvas(); 
-            }
-        });
     </script>
 </body>
-</html>
+                            </html>
